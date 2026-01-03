@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LearnWithCircle")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+1bff999b83cf134f66d2892c345a938834f4164b")]
 [assembly: System.Reflection.AssemblyProductAttribute("LearnWithCircle")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LearnWithCircle")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

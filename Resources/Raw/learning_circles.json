@@ -8,5 +8,30 @@
     "Title": "Arabic Morphology",
     "Subtitle": "Key points and highlights of Arabic morphology",
     "SvgFile": "arabic_morphology.svg"
+  },
+  {
+    "Title": "Letters of Meaning",
+    "Subtitle": "Roles of letters in word formation",
+    "SvgFile": "letters_of_meaning.svg"
+  },
+  {
+    "Title": "Arabic Verb Types",
+    "Subtitle": "Simple and derived verbs with frequency stats",
+    "SvgFile": "arabic_verb_types.svg"
+  },
+  {
+    "Title": "Spelling Rules",
+    "Subtitle": "Learn correct Arabic spelling",
+    "SvgFile": "spelling_rules.svg"
+  },
+  {
+    "Title": "Arabic Grammar",
+    "Subtitle": "Key concepts to analyze sentences",
+    "SvgFile": "arabic_grammar_essentials.svg"
+  },
+  {
+    "Title": "Arabic Rhetoric",
+    "Subtitle": "Figures of speech and stylistic techniques",
+    "SvgFile": "arabic_rhetoric.svg"
   }
 ]
