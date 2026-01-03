@@ -1,0 +1,8 @@
+# Build output
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+
+.vscode/
