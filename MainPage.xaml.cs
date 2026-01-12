@@ -38,4 +38,15 @@ public partial class MainPage : ContentPage
         Uri uri = new Uri("https://www.youtube.com/watch?v=BkPuuFP6SCc&list=PLeARUV9L8_w0MdAhJVIREsZZuHZ4ldv9o&index=1");
         Launcher.Default.OpenAsync(uri);
     }
+
+    private async void OnCircleTapped(object sender, EventArgs e)
+    {
+        if (sender is not Image image || image.BindingContext is not LearningCircleModel circle)
+            return;
+
+        await Shell.Current.GoToAsync(nameof(LearningCircleDetailPage), new Dictionary<string, object>
+        {
+            ["Circle"] = circle
+        });
+    }
 }

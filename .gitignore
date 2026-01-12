@@ -4,5 +4,5 @@ obj/
 *.user
 *.suo
 *.userprefs
-
+.vs/
 .vscode/
