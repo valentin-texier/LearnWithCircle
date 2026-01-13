@@ -13,7 +13,7 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.ConfigureMauiHandlers(handlers =>
 			{
-				handlers.AddHandler(typeof(ThreeFingerImage), typeof(ThreeFingerImageHandler));
+				handlers.AddHandler(typeof(RotatableImage), typeof(RotatableImageHandler));
 			})
 			.ConfigureFonts(fonts =>
 			{

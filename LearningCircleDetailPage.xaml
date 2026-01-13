@@ -8,19 +8,21 @@
     BackgroundColor="{StaticResource White}">
 
     <Grid>
-        <controls:ThreeFingerImage x:Name="WheelImage"
-                                   Source="{Binding SvgFile}"
-                                   WidthRequest="320"
-                                   HeightRequest="320"
-                                   Aspect="AspectFit"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   AnchorX="0.5"
-                                   AnchorY="0.5"
-                                   ThreeFingerTapped="OnThreeFingerTapped">
-            <controls:ThreeFingerImage.GestureRecognizers>
-                <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
-            </controls:ThreeFingerImage.GestureRecognizers>
-        </controls:ThreeFingerImage>
+        <controls:RotatableImage x:Name="WheelImage"
+                                 Source="{Binding SvgFile}"
+                                 WidthRequest="320"
+                                 HeightRequest="320"
+                                 Aspect="AspectFit"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 AnchorX="0.5"
+                                 AnchorY="0.5"
+                                 PinchSensitivity="1"
+                                 RotationSensitivity="1"
+                                 PanSensitivity="2"
+                                 EnableRasterization="True"
+                                 RasterizationScale="3"
+                                 GestureThrottleMs="16"
+                                 GestureSmoothing="0.4" />
     </Grid>
 </ContentPage>
