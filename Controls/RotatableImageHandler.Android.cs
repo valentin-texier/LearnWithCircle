@@ -387,29 +387,6 @@ public partial class RotatableImageHandler : ImageHandler
         }
     }
 
-    private float GetAngle(MotionEvent ev)
-    {
-        if (ev.PointerCount < 2)
-            return 0;
-
-        var index1 = 0;
-        var index2 = 1;
-        if (_pinchPointerId1 != -1 && _pinchPointerId2 != -1)
-        {
-            var i1 = ev.FindPointerIndex(_pinchPointerId1);
-            var i2 = ev.FindPointerIndex(_pinchPointerId2);
-            if (i1 != -1 && i2 != -1)
-            {
-                index1 = i1;
-                index2 = i2;
-            }
-        }
-
-        var x = ev.GetX(index1) - ev.GetX(index2);
-        var y = ev.GetY(index1) - ev.GetY(index2);
-        return (float)Math.Atan2(y, x);
-    }
-
     private float GetAngleToCenter(MotionEvent ev, Android.Views.View? platformView)
     {
         if (ev.PointerCount == 0 || platformView is null)
