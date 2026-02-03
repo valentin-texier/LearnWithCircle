@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:learning="clr-namespace:LearnWithCircle.LearningCircles"
     x:Class="LearnWithCircle.MainPage"
-    BackgroundColor="{StaticResource White}">
+    Style="{StaticResource MainPageStyle}">
 
     <Grid RowDefinitions="Auto,*,Auto" Padding="0">
 
@@ -46,16 +46,15 @@
             </CarouselView>
 
             <Label HorizontalOptions="Center"
-                FontSize="14"
-                Margin="0,20,0,0">
+                   FontSize="14"
+                   Margin="0,20,0,0">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="Need some help? " 
-                            TextColor="{StaticResource Gray900}" />
-
+                              TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
                         <Span Text="Check out the tutorial"
-                            TextColor="{StaticResource Primary}"
-                            TextDecorations="Underline">
+                              TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                              TextDecorations="Underline">
                             <Span.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnTutorialTapped" />
                             </Span.GestureRecognizers>
@@ -67,8 +66,8 @@
         </VerticalStackLayout>
 
         <Label Grid.Row="2"
-            Text="© 2026 LearnWithCircle"
-            Style="{StaticResource FooterLabel}" />
+               Text="© 2026 LearnWithCircle"
+               Style="{StaticResource FooterLabel}" />
 
     </Grid>
 </ContentPage>
