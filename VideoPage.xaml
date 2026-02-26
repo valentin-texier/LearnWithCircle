@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="LearnWithCircle.VideoPage"
+    Title="Tutorial"
+    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="16">
+            <Label
+                Text="Tutorial Videos"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
+            
+            <Label
+                Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
+
+            <VerticalStackLayout Spacing="16" HorizontalOptions="Center" Margin="0,20,0,0">
+                <ImageButton
+                    Source="https://img.youtube.com/vi/BkPuuFP6SCc/0.jpg"
+                    Aspect="AspectFill"
+                    HeightRequest="180"
+                    WidthRequest="320"
+                    Clicked="OnVideoClicked"
+                    CommandParameter="https://www.youtube.com/watch?v=BkPuuFP6SCc" />
+
+                <ImageButton
+                    Source="https://img.youtube.com/vi/__C_N5OZC0c/0.jpg"
+                    Aspect="AspectFill"
+                    HeightRequest="180"
+                    WidthRequest="320"
+                    Clicked="OnVideoClicked"
+                    CommandParameter="https://www.youtube.com/watch?v=__C_N5OZC0c" />
+
+                <ImageButton
+                    Source="https://img.youtube.com/vi/BkPuuFP6SCc/0.jpg"
+                    Aspect="AspectFill"
+                    HeightRequest="180"
+                    WidthRequest="320"
+                    Clicked="OnVideoClicked"
+                    CommandParameter="https://www.youtube.com/watch?v=mnvIv9uncC8" />
+
+                <ImageButton
+                    Source="https://img.youtube.com/vi/BkPuuFP6SCc/0.jpg"
+                    Aspect="AspectFill"
+                    HeightRequest="180"
+                    WidthRequest="320"
+                    Clicked="OnVideoClicked"
+                    CommandParameter="https://www.youtube.com/watch?v=1jL5NiClv6Q" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -14,4 +14,9 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <ShellContent
+        Title="Video Tutorial"
+        ContentTemplate="{DataTemplate local:VideoPage}"
+        Route="VideoPage" />
+
 </Shell>

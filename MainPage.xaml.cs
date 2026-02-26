@@ -33,9 +33,8 @@ public partial class MainPage : ContentPage
         SubtitleLabel.Text = circle.Subtitle;
     }
 
-    private void OnTutorialTapped(object sender, EventArgs e)
+    private async void OnTutorialTapped(object sender, EventArgs e)
     {
-        Uri uri = new Uri("https://www.youtube.com/watch?v=BkPuuFP6SCc&list=PLeARUV9L8_w0MdAhJVIREsZZuHZ4ldv9o&index=1");
-        Launcher.Default.OpenAsync(uri);
+            await Shell.Current.GoToAsync("///VideoPage");
     }
 }
