@@ -37,4 +37,15 @@ public partial class MainPage : ContentPage
     {
             await Shell.Current.GoToAsync("///VideoPage");
     }
+
+    private async void OnCircleTapped(object sender, EventArgs e)
+    {
+        if (sender is not Image image || image.BindingContext is not LearningCircleModel circle)
+            return;
+
+        await Shell.Current.GoToAsync(nameof(LearningCircleDetailPage), new Dictionary<string, object>
+        {
+            ["Circle"] = circle
+        });
+    }
 }

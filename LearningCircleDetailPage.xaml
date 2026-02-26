@@ -1,0 +1,28 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:LearnWithCircle.Controls"
+    xmlns:learning="clr-namespace:LearnWithCircle.LearningCircles"
+    x:Class="LearnWithCircle.LearningCircleDetailPage"
+    x:DataType="learning:LearningCircleModel"
+    BackgroundColor="{StaticResource White}">
+
+    <Grid>
+        <controls:RotatableImage x:Name="WheelImage"
+                                 Source="{Binding SvgFile}"
+                                 WidthRequest="320"
+                                 HeightRequest="320"
+                                 Aspect="AspectFit"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 AnchorX="0.5"
+                                 AnchorY="0.5"
+                                 PinchSensitivity="1"
+                                 RotationSensitivity="1"
+                                 PanSensitivity="2"
+                                 EnableRasterization="True"
+                                 RasterizationScale="3"
+                                 GestureThrottleMs="16"
+                                 GestureSmoothing="0.4" />
+    </Grid>
+</ContentPage>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
+using LearnWithCircle.Controls;
+
 namespace LearnWithCircle;
 
 public static class MauiProgram
@@ -9,6 +11,10 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.ConfigureMauiHandlers(handlers =>
+			{
+				handlers.AddHandler(typeof(RotatableImage), typeof(RotatableImageHandler));
+			})
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
