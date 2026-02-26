@@ -39,7 +39,11 @@
                                    HeightRequest="300"
                                    Aspect="AspectFit"
                                    HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+                                   VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCircleTapped" />
+                                </Image.GestureRecognizers>
+                            </Image>
                         </Grid>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
