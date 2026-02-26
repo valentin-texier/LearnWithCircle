@@ -350,9 +350,8 @@ public partial class RotatableImageHandler : ImageHandler
     private void StartPan(RotatableImage view, MotionEvent ev)
     {
         var centroid = GetCentroid(ev);
-        var screenCentroid = RotateToScreen(centroid.X, centroid.Y, -view.Rotation);
-        _startPanX = (float)screenCentroid.X;
-        _startPanY = (float)screenCentroid.Y;
+        _startPanX = centroid.X;
+        _startPanY = centroid.Y;
         _startTranslationX = view.TranslationX;
         _startTranslationY = view.TranslationY;
         _activeMode = 3;
@@ -369,12 +368,13 @@ public partial class RotatableImageHandler : ImageHandler
             return;
 
         var centroid = GetCentroid(ev);
-        var screenCentroid = RotateToScreen(centroid.X, centroid.Y, -view.Rotation);
-        var dx = (screenCentroid.X - _startPanX) / _density;
-        var dy = (screenCentroid.Y - _startPanY) / _density;
+        var dx = (centroid.X - _startPanX) / _density;
+        var dy = (centroid.Y - _startPanY) / _density;
+        // Compensate for element rotation so pan follows viewport axes.
+        var compensated = RotateToScreen(dx, dy, view.Rotation);
 
-        var targetX = _startTranslationX + dx * view.PanSensitivity;
-        var targetY = _startTranslationY + dy * view.PanSensitivity;
+        var targetX = _startTranslationX + compensated.X * view.PanSensitivity;
+        var targetY = _startTranslationY + compensated.Y * view.PanSensitivity;
         if (view.GestureSmoothing > 0)
         {
             view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);

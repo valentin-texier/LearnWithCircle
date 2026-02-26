@@ -235,9 +235,10 @@ public partial class RotatableImageHandler : ImageHandler
                 return;
 
             var translation = recognizer.TranslationInView(recognizer.View);
-            var rotated = RotateToScreen(translation.X, translation.Y, -view.Rotation);
-            var targetX = _panStartX + rotated.X * view.PanSensitivity;
-            var targetY = _panStartY + rotated.Y * view.PanSensitivity;
+            // Compensate for element rotation so pan follows viewport axes.
+            var compensated = RotateToScreen(translation.X, translation.Y, view.Rotation);
+            var targetX = _panStartX + compensated.X * view.PanSensitivity;
+            var targetY = _panStartY + compensated.Y * view.PanSensitivity;
             if (view.GestureSmoothing > 0)
             {
                 view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);
