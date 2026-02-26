@@ -19,7 +19,7 @@
                                  AnchorY="0.5"
                                  PinchSensitivity="1"
                                  RotationSensitivity="1"
-                                 PanSensitivity="1"
+                                 PanSensitivity="2"
                                  EnableRasterization="True"
                                  RasterizationScale="3"
                                  GestureThrottleMs="16"
