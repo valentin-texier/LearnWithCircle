@@ -191,10 +191,11 @@ public partial class RotatableImageHandler : ImageHandler
         {
             case MotionEventActions.Down:
                 ResetAll();
-                EnsureMode(view, ev, platformView);
+                platformView?.Parent?.RequestDisallowInterceptTouchEvent(true);
                 Log("touch down");
                 break;
             case MotionEventActions.PointerDown:
+                platformView?.Parent?.RequestDisallowInterceptTouchEvent(true);
                 EnsureMode(view, ev, platformView);
                 break;
             case MotionEventActions.Move:
@@ -216,6 +217,7 @@ public partial class RotatableImageHandler : ImageHandler
                 break;
             case MotionEventActions.Up:
             case MotionEventActions.Cancel:
+                platformView?.Parent?.RequestDisallowInterceptTouchEvent(false);
                 ResetAll();
                 ResetPan();
                 Log("touch end");
