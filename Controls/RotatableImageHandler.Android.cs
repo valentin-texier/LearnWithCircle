@@ -12,6 +12,7 @@ namespace LearnWithCircle.Controls;
 public partial class RotatableImageHandler : ImageHandler
 {
     private const double MinScaleEpsilon = 0.01;
+    private const double MinVisiblePart = 8d;
     private int _activeMode;
     private float _rotateStartAngle;
     private double _rotateStartRotation;
@@ -199,7 +200,7 @@ public partial class RotatableImageHandler : ImageHandler
             case MotionEventActions.Move:
                 EnsureMode(view, ev, platformView);
                 if (_activeMode == 3)
-                    UpdatePan(view, ev);
+                    UpdatePan(view, ev, platformView);
                 else if (_activeMode == 2)
                     UpdatePinch(view, ev, platformView);
                 else if (_activeMode == 1)
@@ -329,16 +330,7 @@ public partial class RotatableImageHandler : ImageHandler
         var deltaScale = _pinchStartScale <= 0 ? 1 : nextScale / _pinchStartScale;
         var targetX = _startTranslationX + (1 - deltaScale) * _pinchFocusX;
         var targetY = _startTranslationY + (1 - deltaScale) * _pinchFocusY;
-        if (view.GestureSmoothing > 0)
-        {
-            view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);
-            view.TranslationY = ApplySmoothing(view.TranslationY, targetY, view.GestureSmoothing);
-        }
-        else
-        {
-            view.TranslationX = targetX;
-            view.TranslationY = targetY;
-        }
+        ApplyTranslation(view, targetX, targetY, platformView);
 
         if (nextScale <= view.MinScale + MinScaleEpsilon)
         {
@@ -359,7 +351,7 @@ public partial class RotatableImageHandler : ImageHandler
         Log("pan start");
     }
 
-    private void UpdatePan(RotatableImage view, MotionEvent ev)
+    private void UpdatePan(RotatableImage view, MotionEvent ev, Android.Views.View? platformView)
     {
         if (_activeMode != 3)
             return;
@@ -375,16 +367,47 @@ public partial class RotatableImageHandler : ImageHandler
 
         var targetX = _startTranslationX + compensated.X * view.PanSensitivity;
         var targetY = _startTranslationY + compensated.Y * view.PanSensitivity;
+        ApplyTranslation(view, targetX, targetY, platformView);
+    }
+
+    private void ApplyTranslation(RotatableImage view, double targetX, double targetY, Android.Views.View? platformView)
+    {
+        var clampedTarget = ClampTranslation(view, targetX, targetY, platformView);
         if (view.GestureSmoothing > 0)
         {
-            view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);
-            view.TranslationY = ApplySmoothing(view.TranslationY, targetY, view.GestureSmoothing);
+            var smoothedX = ApplySmoothing(view.TranslationX, clampedTarget.X, view.GestureSmoothing);
+            var smoothedY = ApplySmoothing(view.TranslationY, clampedTarget.Y, view.GestureSmoothing);
+            var clampedSmoothed = ClampTranslation(view, smoothedX, smoothedY, platformView);
+            view.TranslationX = clampedSmoothed.X;
+            view.TranslationY = clampedSmoothed.Y;
         }
         else
         {
-            view.TranslationX = targetX;
-            view.TranslationY = targetY;
+            view.TranslationX = clampedTarget.X;
+            view.TranslationY = clampedTarget.Y;
         }
+    }
+
+    private (double X, double Y) ClampTranslation(RotatableImage view, double targetX, double targetY, Android.Views.View? platformView)
+    {
+        if (platformView is null || platformView.Width <= 0 || platformView.Height <= 0)
+            return (targetX, targetY);
+
+        var viewportWidth = platformView.Width / _density;
+        var viewportHeight = platformView.Height / _density;
+        if (viewportWidth <= 0 || viewportHeight <= 0)
+            return (targetX, targetY);
+
+        var baseWidth = view.Width > 0 ? view.Width : (view.WidthRequest > 0 ? view.WidthRequest : viewportWidth);
+        var baseHeight = view.Height > 0 ? view.Height : (view.HeightRequest > 0 ? view.HeightRequest : viewportHeight);
+        var scaledWidth = Math.Max(1d, baseWidth * Math.Max(view.Scale, view.MinScale));
+        var scaledHeight = Math.Max(1d, baseHeight * Math.Max(view.Scale, view.MinScale));
+
+        var visibleX = Math.Min(MinVisiblePart, scaledWidth);
+        var visibleY = Math.Min(MinVisiblePart, scaledHeight);
+        var maxX = Math.Max(0d, (viewportWidth + scaledWidth) / 2d - visibleX);
+        var maxY = Math.Max(0d, (viewportHeight + scaledHeight) / 2d - visibleY);
+        return (Math.Clamp(targetX, -maxX, maxX), Math.Clamp(targetY, -maxY, maxY));
     }
 
     private float GetAngleToCenter(MotionEvent ev, Android.Views.View? platformView)

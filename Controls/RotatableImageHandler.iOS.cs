@@ -8,6 +8,7 @@ namespace LearnWithCircle.Controls;
 
 public partial class RotatableImageHandler : ImageHandler
 {
+    private const double MinVisiblePart = 8d;
     private UIPinchGestureRecognizer? _pinchRecognizer;
     private UIPanGestureRecognizer? _rotateRecognizer;
     private UIPanGestureRecognizer? _panRecognizer;
@@ -149,16 +150,7 @@ public partial class RotatableImageHandler : ImageHandler
             var deltaScale = _pinchStartScale <= 0 ? 1 : nextScale / _pinchStartScale;
             var targetX = _pinchStartTranslationX + (1 - deltaScale) * _pinchFocusX;
             var targetY = _pinchStartTranslationY + (1 - deltaScale) * _pinchFocusY;
-            if (view.GestureSmoothing > 0)
-            {
-                view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);
-                view.TranslationY = ApplySmoothing(view.TranslationY, targetY, view.GestureSmoothing);
-            }
-            else
-            {
-                view.TranslationX = targetX;
-                view.TranslationY = targetY;
-            }
+            ApplyTranslation(view, targetX, targetY, recognizer.View);
 
             if (nextScale <= view.MinScale + 0.01)
             {
@@ -239,16 +231,7 @@ public partial class RotatableImageHandler : ImageHandler
             var compensated = RotateToScreen(translation.X, translation.Y, view.Rotation);
             var targetX = _panStartX + compensated.X * view.PanSensitivity;
             var targetY = _panStartY + compensated.Y * view.PanSensitivity;
-            if (view.GestureSmoothing > 0)
-            {
-                view.TranslationX = ApplySmoothing(view.TranslationX, targetX, view.GestureSmoothing);
-                view.TranslationY = ApplySmoothing(view.TranslationY, targetY, view.GestureSmoothing);
-            }
-            else
-            {
-                view.TranslationX = targetX;
-                view.TranslationY = targetY;
-            }
+            ApplyTranslation(view, targetX, targetY, recognizer.View);
         }
         else if (recognizer.State == UIGestureRecognizerState.Ended ||
                  recognizer.State == UIGestureRecognizerState.Cancelled)
@@ -315,6 +298,46 @@ public partial class RotatableImageHandler : ImageHandler
         while (delta < -180)
             delta += 360;
         return delta;
+    }
+
+    private void ApplyTranslation(RotatableImage view, double targetX, double targetY, UIView? platformView)
+    {
+        var clampedTarget = ClampTranslation(view, targetX, targetY, platformView);
+        if (view.GestureSmoothing > 0)
+        {
+            var smoothedX = ApplySmoothing(view.TranslationX, clampedTarget.X, view.GestureSmoothing);
+            var smoothedY = ApplySmoothing(view.TranslationY, clampedTarget.Y, view.GestureSmoothing);
+            var clampedSmoothed = ClampTranslation(view, smoothedX, smoothedY, platformView);
+            view.TranslationX = clampedSmoothed.X;
+            view.TranslationY = clampedSmoothed.Y;
+        }
+        else
+        {
+            view.TranslationX = clampedTarget.X;
+            view.TranslationY = clampedTarget.Y;
+        }
+    }
+
+    private static (double X, double Y) ClampTranslation(RotatableImage view, double targetX, double targetY, UIView? platformView)
+    {
+        if (platformView is null)
+            return (targetX, targetY);
+
+        var viewportWidth = platformView.Bounds.Width;
+        var viewportHeight = platformView.Bounds.Height;
+        if (viewportWidth <= 0 || viewportHeight <= 0)
+            return (targetX, targetY);
+
+        var baseWidth = view.Width > 0 ? view.Width : (view.WidthRequest > 0 ? view.WidthRequest : viewportWidth);
+        var baseHeight = view.Height > 0 ? view.Height : (view.HeightRequest > 0 ? view.HeightRequest : viewportHeight);
+        var scaledWidth = Math.Max(1d, baseWidth * Math.Max(view.Scale, view.MinScale));
+        var scaledHeight = Math.Max(1d, baseHeight * Math.Max(view.Scale, view.MinScale));
+
+        var visibleX = Math.Min(MinVisiblePart, scaledWidth);
+        var visibleY = Math.Min(MinVisiblePart, scaledHeight);
+        var maxX = Math.Max(0d, (viewportWidth + scaledWidth) / 2d - visibleX);
+        var maxY = Math.Max(0d, (viewportHeight + scaledHeight) / 2d - visibleY);
+        return (Math.Clamp(targetX, -maxX, maxX), Math.Clamp(targetY, -maxY, maxY));
     }
 
     private static double NormalizeDelta(double delta)
