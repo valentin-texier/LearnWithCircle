@@ -35,7 +35,7 @@ public partial class MainPage : ContentPage
 
     private async void OnTutorialClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///VideoPage");
+        await Shell.Current.GoToAsync("///GettingStarted");
     }
 
     private async void OnCircleTapped(object sender, EventArgs e)

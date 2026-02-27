@@ -16,8 +16,8 @@
         Route="MainPage" />
 
     <ShellContent
-        Title="Video Tutorial"
-        ContentTemplate="{DataTemplate local:VideoPage}"
-        Route="VideoPage" />
+        Title="Getting Started"
+        ContentTemplate="{DataTemplate local:GettingStarted}"
+        Route="GettingStarted" />
 
 </Shell>

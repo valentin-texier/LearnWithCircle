@@ -1,8 +1,8 @@
 namespace LearnWithCircle;
 
-public partial class VideoPage : ContentPage
+public partial class GettingStarted : ContentPage
 {
-	public VideoPage()
+	public GettingStarted()
 	{
 		InitializeComponent();
 	}

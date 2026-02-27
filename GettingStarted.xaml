@@ -2,13 +2,13 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LearnWithCircle.VideoPage"
-    Title="Tutorial"
+    x:Class="LearnWithCircle.GettingStarted"
+    Title="Getting Started"
     BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="16">
-            <Label Text="Tutorial Videos"
+            <Label Text="Video Tutorials"
                 Style="{StaticResource Headline}"
                 HorizontalTextAlignment="Center" />
 
