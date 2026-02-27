@@ -5,7 +5,7 @@
     xmlns:learning="clr-namespace:LearnWithCircle.LearningCircles"
     x:Class="LearnWithCircle.LearningCircleDetailPage"
     x:DataType="learning:LearningCircleModel"
-    BackgroundColor="{StaticResource White}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
 
     <Grid>
         <controls:RotatableImage x:Name="WheelImage"
