@@ -2,25 +2,20 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LearnWithCircle.VideoPage"
-    Title="Tutorial"
+    x:Class="LearnWithCircle.GettingStarted"
+    Title="Getting Started"
     BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="16">
-            <Label
-                Text="Tutorial Videos"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
-            
-            <Label
-                Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
-                FontSize="14"
-                HorizontalTextAlignment="Center"
-                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
+            <Label Text="Video Tutorials"
+                Style="{StaticResource Headline}"
+                HorizontalTextAlignment="Center" />
 
+            <Label Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
+                Style="{StaticResource SubHeadline}"
+                HorizontalTextAlignment="Center" />
+                
             <VerticalStackLayout Spacing="16" HorizontalOptions="Center" Margin="0,20,0,0">
                 <ImageButton
                     Source="https://img.youtube.com/vi/BkPuuFP6SCc/0.jpg"

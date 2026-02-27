@@ -18,4 +18,15 @@ public partial class LearningCircleDetailPage : ContentPage, IQueryAttributable
         }
     }
 
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+
+        if (width <= 0 || height <= 0)
+            return;
+            
+        double size = Math.Min(width, height);
+        WheelImage.WidthRequest  = size;
+        WheelImage.HeightRequest = size;
+    }
 }
