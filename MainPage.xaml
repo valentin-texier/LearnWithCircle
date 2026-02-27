@@ -34,7 +34,6 @@
 
                 <CarouselView x:Name="LearningCircleCarousel"
                               HeightRequest="320"
-                              PeekAreaInsets="40,0"
                               HorizontalScrollBarVisibility="Never"
                               CurrentItemChanged="OnCurrentItemChanged"
                               Loop="False"
@@ -42,15 +41,13 @@
                     <CarouselView.ItemTemplate>
                         <DataTemplate x:DataType="learning:LearningCircleModel">
                             <Grid HorizontalOptions="Fill"
-                                  VerticalOptions="Center">
+                                  VerticalOptions="Fill">
 
                                 <Image Source="{Binding SvgFile}"
-                                       x:Name="CircleImage"
-                                       WidthRequest="280"
-                                       HeightRequest="280"
                                        Aspect="AspectFit"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center">
+                                       HorizontalOptions="Fill"
+                                       VerticalOptions="Fill"
+                                       Margin="12,0">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnCircleTapped"/>
                                     </Image.GestureRecognizers>
@@ -101,12 +98,8 @@
                             Clicked="OnTutorialClicked"/>
                 </VerticalStackLayout>
 
-                <BoxView x:Name="FooterSpacer"
-                         HeightRequest="0"
-                         Color="Transparent"/>
-
             </VerticalStackLayout>
-        
+
             <Label Grid.Row="1"
                    x:Name="FooterLabel"
                    Text="© 2026 LearnWithCircle"
