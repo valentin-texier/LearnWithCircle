@@ -33,9 +33,9 @@ public partial class MainPage : ContentPage
         SubtitleLabel.Text = circle.Subtitle;
     }
 
-    private async void OnTutorialTapped(object sender, EventArgs e)
+    private async void OnTutorialClicked(object sender, EventArgs e)
     {
-            await Shell.Current.GoToAsync("///VideoPage");
+        await Shell.Current.GoToAsync("///VideoPage");
     }
 
     private async void OnCircleTapped(object sender, EventArgs e)

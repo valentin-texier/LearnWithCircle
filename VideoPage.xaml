@@ -8,19 +8,14 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="16">
-            <Label
-                Text="Tutorial Videos"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
-            
-            <Label
-                Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
-                FontSize="14"
-                HorizontalTextAlignment="Center"
-                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
+            <Label Text="Tutorial Videos"
+                Style="{StaticResource Headline}"
+                HorizontalTextAlignment="Center" />
 
+            <Label Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
+                Style="{StaticResource SubHeadline}"
+                HorizontalTextAlignment="Center" />
+                
             <VerticalStackLayout Spacing="16" HorizontalOptions="Center" Margin="0,20,0,0">
                 <ImageButton
                     Source="https://img.youtube.com/vi/BkPuuFP6SCc/0.jpg"
