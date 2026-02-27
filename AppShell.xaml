@@ -19,4 +19,9 @@
         ContentTemplate="{DataTemplate local:VideoPage}"
         Route="VideoPage" />
 
+    <ShellContent
+        Title="License"
+        ContentTemplate="{DataTemplate local:LicensePage}"
+        Route="License" />
+
 </Shell>
