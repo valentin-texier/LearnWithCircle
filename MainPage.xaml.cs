@@ -6,22 +6,22 @@ public partial class MainPage : ContentPage
 {
     private const double TabletWidthThreshold = 600;
 
-    private const double MinCarouselPhone           = 240;
-    private const double MinCarouselPhoneLandscape  = 160;
-    private const double MinCarouselTablet          = 380;
+    private const double MinCarouselPhone = 240;
+    private const double MinCarouselPhoneLandscape = 160;
+    private const double MinCarouselTablet = 380;
     private const double MinCarouselTabletLandscape = 300;
 
-    private double _headerMeasuredHeight   = 0;
+    private double _headerMeasuredHeight = 0;
     private double _tutorialMeasuredHeight = 0;
-    private double _footerMeasuredHeight   = 0;
+    private double _footerMeasuredHeight = 0;
 
     public MainPage()
     {
         InitializeComponent();
 
-        HeaderSection.SizeChanged   += OnFixedZoneSizeChanged;
+        HeaderSection.SizeChanged += OnFixedZoneSizeChanged;
         TutorialSection.SizeChanged += OnFixedZoneSizeChanged;
-        FooterLabel.SizeChanged     += OnFixedZoneSizeChanged;
+        FooterLabel.SizeChanged += OnFixedZoneSizeChanged;
 
         _ = InitializeAsync();
     }
@@ -60,7 +60,7 @@ public partial class MainPage : ContentPage
             return;
 
         bool isLandscape = width > height;
-        bool isTablet    = width >= TabletWidthThreshold;
+        bool isTablet = width >= TabletWidthThreshold;
 
         ApplyStyleAdaptations(isTablet, isLandscape);
         UpdateCarouselHeight(width, height);
@@ -68,28 +68,28 @@ public partial class MainPage : ContentPage
 
     private void ApplyStyleAdaptations(bool isTablet, bool isLandscape)
     {
-        TitleLabel.FontSize     = isTablet ? 28 : 20;
-        SubtitleLabel.FontSize  = isTablet ? 18 : 14;
-        HelpLabel.FontSize      = isTablet ? 18 : 14;
+        TitleLabel.FontSize = isTablet ? 28 : 20;
+        SubtitleLabel.FontSize = isTablet ? 18 : 14;
+        HelpLabel.FontSize = isTablet ? 18 : 14;
         TutorialButton.FontSize = isTablet ? 20 : 16;
-        TutorialButton.Padding  = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
+        TutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
 
         if (isLandscape && !isTablet)
         {
-            HeaderSection.Padding   = new Thickness(24, 10);
+            HeaderSection.Padding = new Thickness(24, 10);
             TutorialSection.Padding = new Thickness(0, 10, 0, 8);
         }
         else
         {
-            HeaderSection.Padding   = new Thickness(16, 20);
+            HeaderSection.Padding = new Thickness(16, 20);
             TutorialSection.Padding = new Thickness(0, 24, 0, 16);
         }
 
         double peekInset = (isTablet, isLandscape) switch
         {
-            (true,  _)    => 80,
+            (true, _) => 80,
             (false, true) => 55,
-            _             => 40
+            _ => 40
         };
         LearningCircleCarousel.PeekAreaInsets = new Thickness(peekInset, 0);
     }
@@ -97,7 +97,7 @@ public partial class MainPage : ContentPage
     private void UpdateCarouselHeight(double width, double height)
     {
         bool isLandscape = width > height;
-        bool isTablet    = width >= TabletWidthThreshold;
+        bool isTablet = width >= TabletWidthThreshold;
 
         if (_headerMeasuredHeight <= 0 || _tutorialMeasuredHeight <= 0 || _footerMeasuredHeight <= 0)
             return;
@@ -111,10 +111,10 @@ public partial class MainPage : ContentPage
 
         double minCarousel = (isTablet, isLandscape) switch
         {
-            (true,  false) => MinCarouselTablet,
-            (true,  true)  => MinCarouselTabletLandscape,
-            (false, true)  => MinCarouselPhoneLandscape,
-            _              => MinCarouselPhone
+            (true, false) => MinCarouselTablet,
+            (true, true) => MinCarouselTabletLandscape,
+            (false, true) => MinCarouselPhoneLandscape,
+            _ => MinCarouselPhone
         };
 
         LearningCircleCarousel.HeightRequest = Math.Max(minCarousel, available);
@@ -128,7 +128,7 @@ public partial class MainPage : ContentPage
 
     private void SetHeader(LearningCircleModel circle)
     {
-        TitleLabel.Text    = circle.Title;
+        TitleLabel.Text = circle.Title;
         SubtitleLabel.Text = circle.Subtitle;
     }
 
