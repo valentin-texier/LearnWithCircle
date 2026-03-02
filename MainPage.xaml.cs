@@ -1,27 +1,19 @@
 ﻿using LearnWithCircle.LearningCircles;
+using System.Collections;
 
 namespace LearnWithCircle;
 
 public partial class MainPage : ContentPage
 {
     private const double TabletWidthThreshold = 600;
-
-    private const double MinCarouselPhone = 240;
+    private const double MinCarouselPhone = 220;
     private const double MinCarouselPhoneLandscape = 160;
-    private const double MinCarouselTablet = 380;
+    private const double MinCarouselTablet = 340;
     private const double MinCarouselTabletLandscape = 300;
-
-    private double _headerMeasuredHeight = 0;
-    private double _tutorialMeasuredHeight = 0;
-    private double _footerMeasuredHeight = 0;
 
     public MainPage()
     {
         InitializeComponent();
-
-        HeaderSection.SizeChanged += OnFixedZoneSizeChanged;
-        TutorialSection.SizeChanged += OnFixedZoneSizeChanged;
-        FooterLabel.SizeChanged += OnFixedZoneSizeChanged;
 
         _ = InitializeAsync();
     }
@@ -34,22 +26,7 @@ public partial class MainPage : ContentPage
 
         LearningCircleCarousel.ItemsSource = circles;
         SetHeader(circles[0]);
-    }
-
-    private void OnFixedZoneSizeChanged(object? sender, EventArgs e)
-    {
-        if (sender == HeaderSection)
-            _headerMeasuredHeight = HeaderSection.Height;
-        else if (sender == TutorialSection)
-            _tutorialMeasuredHeight = TutorialSection.Height;
-        else if (sender == FooterLabel)
-            _footerMeasuredHeight = FooterLabel.Height + 20;
-
-        if (_headerMeasuredHeight > 0 && _tutorialMeasuredHeight > 0 && _footerMeasuredHeight > 0
-            && Width > 0 && Height > 0)
-        {
-            UpdateCarouselHeight(Width, Height);
-        }
+        UpdateArrows();
     }
 
     protected override void OnSizeAllocated(double width, double height)
@@ -59,11 +36,20 @@ public partial class MainPage : ContentPage
         if (width <= 0 || height <= 0)
             return;
 
+        MainLayout.MinimumHeightRequest = height;
+
         bool isLandscape = width > height;
-        bool isTablet = width >= TabletWidthThreshold;
+        bool isTablet = Math.Min(width, height) >= TabletWidthThreshold;
 
         ApplyStyleAdaptations(isTablet, isLandscape);
-        UpdateCarouselHeight(width, height);
+
+        LearningCircleCarousel.MinimumHeightRequest = (isTablet, isLandscape) switch
+        {
+            (true, false) => MinCarouselTablet,
+            (true, true) => MinCarouselTabletLandscape,
+            (false, true) => MinCarouselPhoneLandscape,
+            _ => MinCarouselPhone
+        };
     }
 
     private void ApplyStyleAdaptations(bool isTablet, bool isLandscape)
@@ -74,56 +60,60 @@ public partial class MainPage : ContentPage
         TutorialButton.FontSize = isTablet ? 20 : 16;
         TutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
 
+        double fixedHeaderHeight = isTablet ? 180 : (isLandscape ? 120 : 150);
+        HeaderBorder.HeightRequest = fixedHeaderHeight;
+
         if (isLandscape && !isTablet)
         {
-            HeaderSection.Padding = new Thickness(24, 10);
-            TutorialSection.Padding = new Thickness(0, 10, 0, 8);
+            HeaderSection.Padding = new Thickness(24, 4);
+            TutorialSection.Padding = new Thickness(0, 24, 0, 8);
+            Resources["CircleMargin"] = new Thickness(200, 60);
+        }
+        else if (!isTablet)
+        {
+            HeaderSection.Padding = new Thickness(16, 8);
+            TutorialSection.Padding = new Thickness(0, 32, 0, 10);
+            Resources["CircleMargin"] = new Thickness(12, 0);
         }
         else
         {
-            HeaderSection.Padding = new Thickness(16, 20);
-            TutorialSection.Padding = new Thickness(0, 24, 0, 16);
+            HeaderSection.Padding = new Thickness(16, 12);
+            TutorialSection.Padding = new Thickness(0, 32, 0, 6);
+            Resources["CircleMargin"] = new Thickness(12, 0);
         }
-
-        double peekInset = (isTablet, isLandscape) switch
-        {
-            (true, _) => 80,
-            (false, true) => 55,
-            _ => 40
-        };
-        LearningCircleCarousel.PeekAreaInsets = new Thickness(peekInset, 0);
-    }
-
-    private void UpdateCarouselHeight(double width, double height)
-    {
-        bool isLandscape = width > height;
-        bool isTablet = width >= TabletWidthThreshold;
-
-        if (_headerMeasuredHeight <= 0 || _tutorialMeasuredHeight <= 0 || _footerMeasuredHeight <= 0)
-            return;
-
-        double fixedHeight = _headerMeasuredHeight
-                           + _tutorialMeasuredHeight
-                           + _footerMeasuredHeight
-                           + 8;
-
-        double available = height - fixedHeight;
-
-        double minCarousel = (isTablet, isLandscape) switch
-        {
-            (true, false) => MinCarouselTablet,
-            (true, true) => MinCarouselTabletLandscape,
-            (false, true) => MinCarouselPhoneLandscape,
-            _ => MinCarouselPhone
-        };
-
-        LearningCircleCarousel.HeightRequest = Math.Max(minCarousel, available);
     }
 
     private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
     {
         if (e.CurrentItem is LearningCircleModel circle)
             SetHeader(circle);
+            
+        UpdateArrows();
+    }
+
+    private void UpdateArrows()
+    {
+        if (LearningCircleCarousel.ItemsSource is not IList items)
+            return;
+
+        LeftArrow.IsVisible = LearningCircleCarousel.Position > 0;
+        RightArrow.IsVisible = LearningCircleCarousel.Position < items.Count - 1;
+    }
+
+    private void OnScrollLeft(object sender, EventArgs e)
+    {
+        if (LearningCircleCarousel.Position > 0)
+        {
+            LearningCircleCarousel.Position--;
+        }
+    }
+
+    private void OnScrollRight(object sender, EventArgs e)
+    {
+        if (LearningCircleCarousel.ItemsSource is IList items && LearningCircleCarousel.Position < items.Count - 1)
+        {
+            LearningCircleCarousel.Position++;
+        }
     }
 
     private void SetHeader(LearningCircleModel circle)
