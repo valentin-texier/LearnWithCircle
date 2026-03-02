@@ -142,11 +142,37 @@
                             Clicked="OnTutorialClicked"/>
                 </VerticalStackLayout>
 
-            <Label Grid.Row="3"
-                   x:Name="FooterLabel"
-                   Text="© 2026 تعليم العربية بالدوائر"
-                   Style="{StaticResource FooterLabel}"
-                   Margin="0,0,0,10"/>
+            </VerticalStackLayout>
+
+<VerticalStackLayout Grid.Row="3"
+                     Padding="16,8,16,12"
+                     HorizontalOptions="Center">
+
+    <Label HorizontalOptions="Center"
+           HorizontalTextAlignment="Center"
+           Style="{StaticResource FooterLabel}">
+
+        <Label.FormattedText>
+            <FormattedString>
+
+                <!-- Copyright -->
+                <Span Text="© 2026 تعليم العربية بالدوائر  •  " />
+
+                <!-- Lien licence -->
+                <Span Text="عرض الرخصة"
+                      TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                      TextDecorations="Underline">
+                    <Span.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLicenseClicked" />
+                    </Span.GestureRecognizers>
+                </Span>
+
+            </FormattedString>
+        </Label.FormattedText>
+
+    </Label>
+
+</VerticalStackLayout>
 
         </Grid>
     </ScrollView>
