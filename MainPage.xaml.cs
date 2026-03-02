@@ -11,17 +11,9 @@ public partial class MainPage : ContentPage
     private const double MinCarouselTablet = 380;
     private const double MinCarouselTabletLandscape = 300;
 
-    private double _headerMeasuredHeight = 0;
-    private double _tutorialMeasuredHeight = 0;
-    private double _footerMeasuredHeight = 0;
-
     public MainPage()
     {
         InitializeComponent();
-
-        HeaderSection.SizeChanged += OnFixedZoneSizeChanged;
-        TutorialSection.SizeChanged += OnFixedZoneSizeChanged;
-        FooterLabel.SizeChanged += OnFixedZoneSizeChanged;
 
         _ = InitializeAsync();
     }
@@ -36,22 +28,6 @@ public partial class MainPage : ContentPage
         SetHeader(circles[0]);
     }
 
-    private void OnFixedZoneSizeChanged(object? sender, EventArgs e)
-    {
-        if (sender == HeaderSection)
-            _headerMeasuredHeight = HeaderSection.Height;
-        else if (sender == TutorialSection)
-            _tutorialMeasuredHeight = TutorialSection.Height;
-        else if (sender == FooterLabel)
-            _footerMeasuredHeight = FooterLabel.Height + 20;
-
-        if (_headerMeasuredHeight > 0 && _tutorialMeasuredHeight > 0 && _footerMeasuredHeight > 0
-            && Width > 0 && Height > 0)
-        {
-            UpdateCarouselHeight(Width, Height);
-        }
-    }
-
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
@@ -59,11 +35,26 @@ public partial class MainPage : ContentPage
         if (width <= 0 || height <= 0)
             return;
 
+        // Astuce : On force la Grid à faire au moins la taille de l'écran.
+        // Cela permet à la Row="1" (Carousel) avec "*" de prendre tout l'espace disponible
+        // sans avoir besoin de calculs manuels.
+        MainLayout.MinimumHeightRequest = height;
+
         bool isLandscape = width > height;
         bool isTablet = width >= TabletWidthThreshold;
 
         ApplyStyleAdaptations(isTablet, isLandscape);
-        UpdateCarouselHeight(width, height);
+
+        // On définit juste la taille MINIMUM du carrousel.
+        // La Grid lui donnera plus d'espace si disponible (grâce au Row="*").
+        // Si l'espace manque, le ScrollView s'activera.
+        LearningCircleCarousel.MinimumHeightRequest = (isTablet, isLandscape) switch
+        {
+            (true, false) => MinCarouselTablet,
+            (true, true) => MinCarouselTabletLandscape,
+            (false, true) => MinCarouselPhoneLandscape,
+            _ => MinCarouselPhone
+        };
     }
 
     private void ApplyStyleAdaptations(bool isTablet, bool isLandscape)
@@ -92,32 +83,6 @@ public partial class MainPage : ContentPage
             _ => 40
         };
         LearningCircleCarousel.PeekAreaInsets = new Thickness(peekInset, 0);
-    }
-
-    private void UpdateCarouselHeight(double width, double height)
-    {
-        bool isLandscape = width > height;
-        bool isTablet = width >= TabletWidthThreshold;
-
-        if (_headerMeasuredHeight <= 0 || _tutorialMeasuredHeight <= 0 || _footerMeasuredHeight <= 0)
-            return;
-
-        double fixedHeight = _headerMeasuredHeight
-                           + _tutorialMeasuredHeight
-                           + _footerMeasuredHeight
-                           + 8;
-
-        double available = height - fixedHeight;
-
-        double minCarousel = (isTablet, isLandscape) switch
-        {
-            (true, false) => MinCarouselTablet,
-            (true, true) => MinCarouselTabletLandscape,
-            (false, true) => MinCarouselPhoneLandscape,
-            _ => MinCarouselPhone
-        };
-
-        LearningCircleCarousel.HeightRequest = Math.Max(minCarousel, available);
     }
 
     private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
