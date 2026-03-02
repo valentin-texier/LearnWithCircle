@@ -1,14 +1,14 @@
 ﻿using LearnWithCircle.LearningCircles;
+using System.Collections;
 
 namespace LearnWithCircle;
 
 public partial class MainPage : ContentPage
 {
     private const double TabletWidthThreshold = 600;
-
-    private const double MinCarouselPhone = 240;
+    private const double MinCarouselPhone = 220;
     private const double MinCarouselPhoneLandscape = 160;
-    private const double MinCarouselTablet = 380;
+    private const double MinCarouselTablet = 350;
     private const double MinCarouselTabletLandscape = 300;
 
     public MainPage()
@@ -26,6 +26,7 @@ public partial class MainPage : ContentPage
 
         LearningCircleCarousel.ItemsSource = circles;
         SetHeader(circles[0]);
+        UpdateArrows();
     }
 
     protected override void OnSizeAllocated(double width, double height)
@@ -35,19 +36,13 @@ public partial class MainPage : ContentPage
         if (width <= 0 || height <= 0)
             return;
 
-        // Astuce : On force la Grid à faire au moins la taille de l'écran.
-        // Cela permet à la Row="1" (Carousel) avec "*" de prendre tout l'espace disponible
-        // sans avoir besoin de calculs manuels.
         MainLayout.MinimumHeightRequest = height;
 
         bool isLandscape = width > height;
-        bool isTablet = width >= TabletWidthThreshold;
+        bool isTablet = Math.Min(width, height) >= TabletWidthThreshold;
 
         ApplyStyleAdaptations(isTablet, isLandscape);
 
-        // On définit juste la taille MINIMUM du carrousel.
-        // La Grid lui donnera plus d'espace si disponible (grâce au Row="*").
-        // Si l'espace manque, le ScrollView s'activera.
         LearningCircleCarousel.MinimumHeightRequest = (isTablet, isLandscape) switch
         {
             (true, false) => MinCarouselTablet,
@@ -65,30 +60,60 @@ public partial class MainPage : ContentPage
         TutorialButton.FontSize = isTablet ? 20 : 16;
         TutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
 
+        double fixedHeaderHeight = isTablet ? 180 : (isLandscape ? 120 : 150);
+        HeaderBorder.HeightRequest = fixedHeaderHeight;
+
         if (isLandscape && !isTablet)
         {
-            HeaderSection.Padding = new Thickness(24, 10);
-            TutorialSection.Padding = new Thickness(0, 10, 0, 8);
+            HeaderSection.Padding = new Thickness(24, 4);
+            TutorialSection.Padding = new Thickness(0, 24, 0, 8);
+            Resources["CircleMargin"] = new Thickness(200, 60);
+        }
+        else if (!isTablet)
+        {
+            HeaderSection.Padding = new Thickness(16, 8);
+            TutorialSection.Padding = new Thickness(0, 32, 0, 10);
+            Resources["CircleMargin"] = new Thickness(12, 0);
         }
         else
         {
-            HeaderSection.Padding = new Thickness(16, 20);
-            TutorialSection.Padding = new Thickness(0, 24, 0, 16);
+            HeaderSection.Padding = new Thickness(16, 16);
+            TutorialSection.Padding = new Thickness(0, 32, 0, 16);
+            Resources["CircleMargin"] = new Thickness(12, 0);
         }
-
-        double peekInset = (isTablet, isLandscape) switch
-        {
-            (true, _) => 80,
-            (false, true) => 55,
-            _ => 40
-        };
-        LearningCircleCarousel.PeekAreaInsets = new Thickness(peekInset, 0);
     }
 
     private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
     {
         if (e.CurrentItem is LearningCircleModel circle)
             SetHeader(circle);
+            
+        UpdateArrows();
+    }
+
+    private void UpdateArrows()
+    {
+        if (LearningCircleCarousel.ItemsSource is not IList items)
+            return;
+
+        LeftArrow.IsVisible = LearningCircleCarousel.Position > 0;
+        RightArrow.IsVisible = LearningCircleCarousel.Position < items.Count - 1;
+    }
+
+    private void OnScrollLeft(object sender, EventArgs e)
+    {
+        if (LearningCircleCarousel.Position > 0)
+        {
+            LearningCircleCarousel.Position--;
+        }
+    }
+
+    private void OnScrollRight(object sender, EventArgs e)
+    {
+        if (LearningCircleCarousel.ItemsSource is IList items && LearningCircleCarousel.Position < items.Count - 1)
+        {
+            LearningCircleCarousel.Position++;
+        }
     }
 
     private void SetHeader(LearningCircleModel circle)

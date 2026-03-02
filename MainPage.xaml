@@ -5,74 +5,120 @@
     x:Class="LearnWithCircle.MainPage"
     Style="{StaticResource MainPageStyle}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Thickness x:Key="CircleMargin">12,0</Thickness>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ScrollView x:Name="RootScroll">
         <Grid x:Name="MainLayout"
               RowDefinitions="Auto,*,Auto,Auto">
 
             <VerticalStackLayout Grid.Row="0"
                                  x:Name="HeaderSection"
-                                     Spacing="24"
+                                     Spacing="16"
                                      Padding="16,20">
                     <Border x:Name="HeaderBorder"
-                            HeightRequest="-1"
                             Style="{StaticResource HeaderBorder}">
                         <VerticalStackLayout VerticalOptions="Center"
                                              Spacing="6"
                                              Padding="16,12">
                             <Label x:Name="TitleLabel"
+                                   MaxLines="2"
                                    LineBreakMode="WordWrap"
                                    Style="{StaticResource Headline}"/>
                             <Label x:Name="SubtitleLabel"
+                                   MaxLines="2"
                                    LineBreakMode="WordWrap"
                                    Style="{StaticResource SubHeadline}"/>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
 
-            <CarouselView Grid.Row="1"
-                          x:Name="LearningCircleCarousel"
-                              HorizontalScrollBarVisibility="Never"
-                              CurrentItemChanged="OnCurrentItemChanged"
-                              Loop="False"
-                              Margin="0,8,0,0">
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate x:DataType="learning:LearningCircleModel">
-                            <Grid HorizontalOptions="Fill"
-                                  VerticalOptions="Fill">
-
-                                <Image Source="{Binding SvgFile}"
-                                       Aspect="AspectFit"
-                                       HorizontalOptions="Fill"
-                                       VerticalOptions="Fill"
-                                       Margin="12,0">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnCircleTapped"/>
-                                    </Image.GestureRecognizers>
-                                </Image>
-
-                                <Border x:Name="OverlayLabel"
-                                        BackgroundColor="#86000000"
-                                        WidthRequest="100"
-                                        HeightRequest="100"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center"
-                                        IsVisible="True">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="50"/>
-                                    </Border.StrokeShape>
-                                    <Label Text="Tap me"
-                                           TextColor="White"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
+            <Grid Grid.Row="1"
+                  RowDefinitions="*,Auto"
+                  Margin="0,8,0,0">
+                <Grid Grid.Row="0">
+                    <CarouselView x:Name="LearningCircleCarousel"
+                                  HorizontalScrollBarVisibility="Never"
+                                  CurrentItemChanged="OnCurrentItemChanged"
+                                  Loop="False"
+                                  IndicatorView="Indicators">
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate x:DataType="learning:LearningCircleModel">
+                                <Grid HorizontalOptions="Fill"
+                                      VerticalOptions="Fill">
+                                    <Image Source="{Binding SvgFile}"
+                                           Aspect="AspectFit"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalTextAlignment="Center"/>
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
+                                           Margin="{DynamicResource CircleMargin}">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCircleTapped"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Border x:Name="OverlayLabel"
+                                            BackgroundColor="#B6000000"
+                                            WidthRequest="120"
+                                            HeightRequest="120"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            IsVisible="True">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="60"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="انقر عليّ"
+                                               TextColor="White"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+
+                    <Button x:Name="LeftArrow"
+                            Text="❮"
+                            Clicked="OnScrollLeft"
+                            IsVisible="False"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Margin="10,0"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            CornerRadius="20"
+                            Padding="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariantLight}, Dark={StaticResource SurfaceVariantDark}}"
+                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                            Opacity="0.9"/>
+
+                    <Button x:Name="RightArrow"
+                            Text="❯"
+                            Clicked="OnScrollRight"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            Margin="10,0"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            CornerRadius="20"
+                            Padding="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariantLight}, Dark={StaticResource SurfaceVariantDark}}"
+                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                            Opacity="0.9"/>
+                </Grid>
+
+                <IndicatorView Grid.Row="1"
+                               x:Name="Indicators"
+                               IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light}, Dark={StaticResource Gray300Dark}}"
+                               SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                               HorizontalOptions="Center"
+                               Margin="0,2,0,0"/>
+            </Grid>
 
             <VerticalStackLayout Grid.Row="2"
                                  x:Name="TutorialSection"
@@ -80,13 +126,13 @@
                                      Spacing="8"
                                      Padding="0,24,0,16">
                     <Label x:Name="HelpLabel"
-                           Text="Need some help?"
+                           Text="هل تحتاج مساعدة؟"
                            HorizontalOptions="Center"
                            FontSize="14"
                            TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}"/>
 
                     <Button x:Name="TutorialButton"
-                            Text="Watch Tutorial"
+                            Text="شاهد الشرح"
                             HorizontalOptions="Center"
                             FontSize="16"
                             BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
@@ -98,9 +144,9 @@
 
             <Label Grid.Row="3"
                    x:Name="FooterLabel"
-                   Text="© 2026 LearnWithCircle"
+                   Text="© 2026 تعليم العربية بالدوائر"
                    Style="{StaticResource FooterLabel}"
-                   Margin="0,8,0,12"/>
+                   Margin="0,0,0,10"/>
 
         </Grid>
     </ScrollView>
