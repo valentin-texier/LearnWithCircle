@@ -23,6 +23,6 @@
                                  EnableRasterization="True"
                                  RasterizationScale="3"
                                  GestureThrottleMs="16"
-                                 GestureSmoothing="0.4" />
+                                 GestureSmoothing="0.4"/>
     </Grid>
 </ContentPage>
