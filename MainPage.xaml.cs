@@ -8,7 +8,7 @@ public partial class MainPage : ContentPage
     private const double TabletWidthThreshold = 600;
     private const double MinCarouselPhone = 220;
     private const double MinCarouselPhoneLandscape = 160;
-    private const double MinCarouselTablet = 350;
+    private const double MinCarouselTablet = 340;
     private const double MinCarouselTabletLandscape = 300;
 
     public MainPage()
@@ -77,8 +77,8 @@ public partial class MainPage : ContentPage
         }
         else
         {
-            HeaderSection.Padding = new Thickness(16, 16);
-            TutorialSection.Padding = new Thickness(0, 32, 0, 16);
+            HeaderSection.Padding = new Thickness(16, 12);
+            TutorialSection.Padding = new Thickness(0, 32, 0, 6);
             Resources["CircleMargin"] = new Thickness(12, 0);
         }
     }
