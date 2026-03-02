@@ -140,6 +140,6 @@ public partial class MainPage : ContentPage
 
     private async void OnLicenseClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///LicencePage");
+        await Shell.Current.GoToAsync("///LicensePage");
     }
 }
