@@ -69,9 +69,26 @@
 
         </VerticalStackLayout>
 
-        <Label Grid.Row="2"
-               Text="© 2026 LearnWithCircle"
-               Style="{StaticResource FooterLabel}" />
+        <VerticalStackLayout Grid.Row="2" Spacing="8" Padding="16" VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="© 2026 LearnWithCircle"
+                   Style="{StaticResource FooterLabel}" 
+                   HorizontalTextAlignment="Center" />
+            <Label HorizontalOptions="Center"
+                   FontSize="14"
+                   Margin="0,20,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="See License"
+                              TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnLicenseClicked" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </VerticalStackLayout>
 
     </Grid>
 </ContentPage>

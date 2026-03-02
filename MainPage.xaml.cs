@@ -35,7 +35,7 @@ public partial class MainPage : ContentPage
 
     private async void OnTutorialTapped(object sender, EventArgs e)
     {
-            await Shell.Current.GoToAsync("///VideoPage");
+        await Shell.Current.GoToAsync("///VideoPage");
     }
 
     private async void OnCircleTapped(object sender, EventArgs e)
@@ -47,5 +47,10 @@ public partial class MainPage : ContentPage
         {
             ["Circle"] = circle
         });
+    }
+
+    private async void OnLicenseClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///License");
     }
 }
