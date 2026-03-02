@@ -47,7 +47,7 @@
     <Style TargetType="Label" x:Key="Headline">
         <Setter Property="TextColor" 
                 Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}" />
-        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />

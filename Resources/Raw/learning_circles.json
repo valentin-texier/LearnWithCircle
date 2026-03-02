@@ -1,37 +1,42 @@
 [
   {
-    "Title": "Triliteral Verbs",
-    "Subtitle": "Correct and weak verbs in the computational dictionary",
-    "SvgFile": "triliteral_verbs.svg"
+    "Title": "دائرة تصريف الأفعال الثلاثية وفقًا الصحيح والمعتل",
+    "Subtitle": "نتائج إحصاءات الأفعال الثلاثية المُجرَّدة وفق أنواعها الصرفية مع الأمثلة.",
+    "SvgFile": "circle1.svg"
   },
   {
-    "Title": "Arabic Morphology",
-    "Subtitle": "Key points and highlights of Arabic morphology",
-    "SvgFile": "arabic_morphology.svg"
+    "Title": "دائرة معالم الصرف العربي",
+    "Subtitle": "تتضمن أبوابَ الصرف العربي: توطئة صرفية والميزان الصرفي وتقسيمات الأفعال، والأسماء، والمشترك فيهما.",
+    "SvgFile": "circle2.svg"
   },
   {
-    "Title": "Letters of Meaning",
-    "Subtitle": "Roles of letters in word formation",
-    "SvgFile": "letters_of_meaning.svg"
+    "Title": "دائرة حروف المعاني",
+    "Subtitle": "تتضمن تقسيمات حروف المعاني بحسب وظائفها ومبانيها ومعانيها.",
+    "SvgFile": "circle3.svg"
   },
   {
-    "Title": "Arabic Verb Types",
-    "Subtitle": "Simple and derived verbs with frequency stats",
-    "SvgFile": "arabic_verb_types.svg"
+    "Title": "دائرة تصريف الأفعال وفقًا للتجرد والزيادة",
+    "Subtitle": "إحصاءات الأفعال العربية الثلاثية والرباعية المجردة والمزيدة وفق الأبواب التصريفية",
+    "SvgFile": "circle4.svg"
   },
   {
-    "Title": "Spelling Rules",
-    "Subtitle": "Learn correct Arabic spelling",
-    "SvgFile": "spelling_rules.svg"
+    "Title": "دائرة معالم قواعد الإملاء",
+    "Subtitle": "تتضمن مَدخَلًا وستة أبواب: الهمزة، الألف اللينة، الزيادة والحذف، الفصل والوصل، هاء التأنيث وتاؤه، علامات الترقيم.",
+    "SvgFile": "circle5.svg"
   },
   {
-    "Title": "Arabic Grammar",
-    "Subtitle": "Key concepts to analyze sentences",
-    "SvgFile": "arabic_grammar.svg"
+    "Title": "دائرة معالم النحو العربي",
+    "Subtitle": "تتضمن أبواب النحو العربي موزّعةً على أقسام كل من الإعراب البناء.",
+    "SvgFile": "circle6.svg"
   },
   {
-    "Title": "Arabic Rhetoric",
-    "Subtitle": "Figures of speech and stylistic techniques",
-    "SvgFile": "arabic_rhetoric.svg"
+    "Title": "دائرة معالم البلاغة العربية",
+    "Subtitle": "تتضمن مدخلًا وعلوم البلاغة الثلاثة: البيان والمعاني والبديع.",
+    "SvgFile": "circle7.svg"
+  },
+  {
+    "Title": "دائرة قواعد رسم الهمزة",
+    "Subtitle": "تتضمن قواعد رسم الهمزة بحسب موضعها في أول الكلمة (الوصل والقطع) ووسطها وآخرها.",
+    "SvgFile": "circle8.svg"
   }
 ]

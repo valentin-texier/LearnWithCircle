@@ -3,16 +3,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="LearnWithCircle.GettingStarted"
-    Title="Getting Started"
+    Title="البدء"
     BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="16">
-            <Label Text="Video Tutorials"
+            <Label Text="الدروس المصورة"
                 Style="{StaticResource Headline}"
                 HorizontalTextAlignment="Center" />
 
-            <Label Text="Watch our tutorial series to learn how to use LearnWithCircle effectively."
+            <Label Text="تسجيلات تعرُّف كيفية استعمال التطبيق"
                 Style="{StaticResource SubHeadline}"
                 HorizontalTextAlignment="Center" />
                 

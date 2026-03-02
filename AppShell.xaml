@@ -4,19 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:LearnWithCircle"
-    Title="LearnWithCircle"
+    Title="تعليم العربية بالدوائر"
     
     BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"
     TitleColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"
     ForegroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}">
 
     <ShellContent
-        Title="LearnWithCircle"
+        Title="تعليم العربية بالدوائر"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
     <ShellContent
-        Title="Getting Started"
+        Title="البدء"
         ContentTemplate="{DataTemplate local:GettingStarted}"
         Route="GettingStarted" />
 
