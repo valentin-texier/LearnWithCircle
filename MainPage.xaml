@@ -17,24 +17,24 @@
 
             <VerticalStackLayout Grid.Row="0"
                                  x:Name="HeaderSection"
-                                     Spacing="16"
-                                     Padding="16,20">
-                    <Border x:Name="HeaderBorder"
-                            Style="{StaticResource HeaderBorder}">
-                        <VerticalStackLayout VerticalOptions="Center"
-                                             Spacing="6"
-                                             Padding="16,12">
-                            <Label x:Name="TitleLabel"
-                                   MaxLines="2"
-                                   LineBreakMode="WordWrap"
-                                   Style="{StaticResource Headline}"/>
-                            <Label x:Name="SubtitleLabel"
-                                   MaxLines="2"
-                                   LineBreakMode="WordWrap"
-                                   Style="{StaticResource SubHeadline}"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </VerticalStackLayout>
+                                 Spacing="16"
+                                 Padding="16,20">
+                <Border x:Name="HeaderBorder"
+                        Style="{StaticResource HeaderBorder}">
+                    <VerticalStackLayout VerticalOptions="Center"
+                                         Spacing="6"
+                                         Padding="16,12">
+                        <Label x:Name="TitleLabel"
+                               MaxLines="2"
+                               LineBreakMode="WordWrap"
+                               Style="{StaticResource Headline}"/>
+                        <Label x:Name="SubtitleLabel"
+                               MaxLines="2"
+                               LineBreakMode="WordWrap"
+                               Style="{StaticResource SubHeadline}"/>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
 
             <Grid Grid.Row="1"
                   RowDefinitions="*,Auto"
@@ -122,57 +122,53 @@
 
             <VerticalStackLayout Grid.Row="2"
                                  x:Name="TutorialSection"
-                                     HorizontalOptions="Center"
-                                     Spacing="8"
-                                     Padding="0,24,0,16">
-                    <Label x:Name="HelpLabel"
-                           Text="هل تحتاج مساعدة؟"
-                           HorizontalOptions="Center"
-                           FontSize="14"
-                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                                 HorizontalOptions="Center"
+                                 Spacing="8"
+                                 Padding="0,24,0,16">
+                <Label x:Name="HelpLabel"
+                       Text="هل تحتاج مساعدة؟"
+                       HorizontalOptions="Center"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}"/>
 
-                    <Button x:Name="TutorialButton"
-                            Text="شاهد الشرح"
-                            HorizontalOptions="Center"
-                            FontSize="16"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
-                            TextColor="White"
-                            CornerRadius="12"
-                            Padding="16,10"
-                            Clicked="OnTutorialClicked"/>
-                </VerticalStackLayout>
-
+                <Button x:Name="TutorialButton"
+                        Text="شاهد الشرح"
+                        HorizontalOptions="Center"
+                        FontSize="16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                        TextColor="White"
+                        CornerRadius="12"
+                        Padding="16,10"
+                        Clicked="OnTutorialClicked"/>
             </VerticalStackLayout>
 
-<VerticalStackLayout Grid.Row="3"
-                     Padding="16,8,16,12"
-                     HorizontalOptions="Center">
+            <VerticalStackLayout Grid.Row="3"
+                                 Padding="16,8,16,12"
+                                 HorizontalOptions="Center">
 
-    <Label HorizontalOptions="Center"
-           HorizontalTextAlignment="Center"
-           Style="{StaticResource FooterLabel}">
+                <Label HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Style="{StaticResource FooterLabel}">
 
-        <Label.FormattedText>
-            <FormattedString>
+                    <Label.FormattedText>
+                        <FormattedString>
 
-                <!-- Copyright -->
-                <Span Text="© 2026 تعليم العربية بالدوائر  •  " />
+                            <Span Text="© 2026 تعليم العربية بالدوائر"/>
 
-                <!-- Lien licence -->
-                <Span Text="عرض الرخصة"
-                      TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
-                      TextDecorations="Underline">
-                    <Span.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnLicenseClicked" />
-                    </Span.GestureRecognizers>
-                </Span>
+                            <Span Text="عرض الرخصة"
+                                  TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                                  TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnLicenseClicked"/>
+                                </Span.GestureRecognizers>
+                            </Span>
 
-            </FormattedString>
-        </Label.FormattedText>
+                        </FormattedString>
+                    </Label.FormattedText>
 
-    </Label>
+                </Label>
 
-</VerticalStackLayout>
+            </VerticalStackLayout>
 
         </Grid>
     </ScrollView>
