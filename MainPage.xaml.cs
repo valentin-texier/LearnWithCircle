@@ -137,4 +137,9 @@ public partial class MainPage : ContentPage
             ["Circle"] = circle
         });
     }
+
+    private async void OnLicenseClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///LicensePage");
+    }
 }
