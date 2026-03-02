@@ -21,8 +21,8 @@
         Route="GettingStarted" />
 
     <ShellContent
-        Title="License"
+        Title="عرض الرخصة"
         ContentTemplate="{DataTemplate local:LicensePage}"
-        Route="License" />
+        Route="LicensePage" />
 
 </Shell>
