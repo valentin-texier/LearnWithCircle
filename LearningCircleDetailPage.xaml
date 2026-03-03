@@ -18,6 +18,7 @@
                                  AnchorX="0.5"
                                  AnchorY="0.5"
                                  PinchSensitivity="1"
+                                 MaxScale="15"
                                  RotationSensitivity="1"
                                  PanSensitivity="2"
                                  EnableRasterization="True"

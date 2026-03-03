@@ -49,7 +49,7 @@
                             <DataTemplate x:DataType="learning:LearningCircleModel">
                                 <Grid HorizontalOptions="Fill"
                                       VerticalOptions="Fill">
-                                    <Image Source="{Binding SvgFile}"
+                                    <Image Source="{Binding ThumbnailFile}"
                                            Aspect="AspectFit"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"
