@@ -8,3 +8,5 @@ obj/
 .vscode/
 .idea/
 keystore.p12
+/LearnWithCircle.csproj
+/p12.txt

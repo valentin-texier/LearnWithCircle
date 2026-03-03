@@ -22,7 +22,7 @@
                                  RotationSensitivity="1"
                                  PanSensitivity="2"
                                  EnableRasterization="True"
-                                 RasterizationScale="3"
+                                 RasterizationScale="3.2"
                                  GestureThrottleMs="16"
                                  GestureSmoothing="0.4"/>
     </Grid>
