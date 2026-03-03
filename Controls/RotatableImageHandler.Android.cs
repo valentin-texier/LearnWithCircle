@@ -367,8 +367,10 @@ public partial class RotatableImageHandler : ImageHandler
         // Compensate for element rotation so pan follows viewport axes.
         var compensated = RotateToScreen(dx, dy, view.Rotation);
 
-        var targetX = _startTranslationX + compensated.X * view.PanSensitivity;
-        var targetY = _startTranslationY + compensated.Y * view.PanSensitivity;
+        // Map-like pan: scale displacement with zoom so high zoom does not feel "stuck".
+        var panMultiplier = view.PanSensitivity * Math.Max(1d, view.Scale);
+        var targetX = _startTranslationX + compensated.X * panMultiplier;
+        var targetY = _startTranslationY + compensated.Y * panMultiplier;
         ApplyTranslation(view, targetX, targetY, platformView);
     }
 

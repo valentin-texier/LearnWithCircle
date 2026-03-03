@@ -229,8 +229,10 @@ public partial class RotatableImageHandler : ImageHandler
             var translation = recognizer.TranslationInView(recognizer.View);
             // Compensate for element rotation so pan follows viewport axes.
             var compensated = RotateToScreen(translation.X, translation.Y, view.Rotation);
-            var targetX = _panStartX + compensated.X * view.PanSensitivity;
-            var targetY = _panStartY + compensated.Y * view.PanSensitivity;
+            // Map-like pan: scale displacement with zoom so high zoom does not feel "stuck".
+            var panMultiplier = view.PanSensitivity * Math.Max(1d, view.Scale);
+            var targetX = _panStartX + compensated.X * panMultiplier;
+            var targetY = _panStartY + compensated.Y * panMultiplier;
             ApplyTranslation(view, targetX, targetY, recognizer.View);
         }
         else if (recognizer.State == UIGestureRecognizerState.Ended ||
