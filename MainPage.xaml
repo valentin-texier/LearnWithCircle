@@ -153,7 +153,7 @@
                     <Label.FormattedText>
                         <FormattedString>
 
-                            <Span Text="© 2026 تعليم العربية بالدوائر"/>
+                            <Span Text="CC BY 4.0 2026 تعليم العربية بالدوائر"/>
 
                             <Span Text="عرض الرخصة"
                                   TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"

@@ -73,7 +73,7 @@
                    HorizontalTextAlignment="Center"
                    Style="{StaticResource FooterLabel}"
                    Margin="0,16,0,0"
-                   Text="© 2026 تعليم العربية بالدوائر"/>
+                   Text="CC BY 4.0 2026 تعليم العربية بالدوائر"/>
 
         </VerticalStackLayout>
     </ScrollView>
