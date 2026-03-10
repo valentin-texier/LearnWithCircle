@@ -1,0 +1,241 @@
+name: Android Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version without the leading v (example: 1.2.3)
+        required: true
+        type: string
+      version_code:
+        description: Optional Android version code. Defaults to the workflow run number.
+        required: false
+        type: string
+      release_notes:
+        description: Optional notes prepended to the generated GitHub release notes.
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      NUGET_PACKAGES: ${{ github.workspace }}\.nuget\packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release metadata
+        id: meta
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}".Trim()
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            throw "The version input is required."
+          }
+
+          if ($version.StartsWith("v")) {
+            $version = $version.Substring(1)
+          }
+
+          $versionCode = "${{ inputs.version_code }}".Trim()
+          if ([string]::IsNullOrWhiteSpace($versionCode)) {
+            $versionCode = "${{ github.run_number }}"
+          }
+
+          if ($versionCode -notmatch '^\d+$') {
+            throw "The Android version code must be a positive integer."
+          }
+
+          $tag = "v$version"
+          $notesPath = Join-Path $env:RUNNER_TEMP "release-notes.txt"
+          @'
+${{ inputs.release_notes }}
+'@.Trim() | Set-Content -Path $notesPath -Encoding utf8NoBOM
+
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "version_code=$versionCode" >> $env:GITHUB_OUTPUT
+          "notes_path=$notesPath" >> $env:GITHUB_OUTPUT
+
+      - name: Create and push tag
+        shell: pwsh
+        run: |
+          $tag = "${{ steps.meta.outputs.tag }}"
+
+          git fetch --tags origin
+          git ls-remote --exit-code --tags origin "refs/tags/$tag" *> $null
+          if ($LASTEXITCODE -eq 0) {
+            throw "Tag $tag already exists on origin."
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a $tag -m "Release $tag"
+          git push origin $tag
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install MAUI Android workload
+        shell: pwsh
+        run: dotnet workload install maui-android
+
+      - name: Restore dependencies
+        shell: pwsh
+        run: dotnet restore LearnWithCircle.csproj
+
+      - name: Materialize signing secrets
+        id: signing
+        shell: pwsh
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          foreach ($name in @("ANDROID_KEYSTORE_BASE64", "ANDROID_KEYSTORE_PASSWORD", "ANDROID_KEY_ALIAS")) {
+            $value = [Environment]::GetEnvironmentVariable($name)
+            if ([string]::IsNullOrWhiteSpace($value)) {
+              throw "Missing required GitHub secret: $name"
+            }
+          }
+
+          $keystorePath = Join-Path $env:RUNNER_TEMP "android-release-key.p12"
+          $storePassPath = Join-Path $env:RUNNER_TEMP "android-store-password.txt"
+          $keyPassPath = Join-Path $env:RUNNER_TEMP "android-key-password.txt"
+
+          $keystoreBytes = [Convert]::FromBase64String(($env:ANDROID_KEYSTORE_BASE64 -replace '\s', ''))
+          [IO.File]::WriteAllBytes($keystorePath, $keystoreBytes)
+
+          $keyPassword = if ([string]::IsNullOrWhiteSpace($env:ANDROID_KEY_PASSWORD)) {
+            $env:ANDROID_KEYSTORE_PASSWORD
+          } else {
+            $env:ANDROID_KEY_PASSWORD
+          }
+
+          Set-Content -Path $storePassPath -Value $env:ANDROID_KEYSTORE_PASSWORD -NoNewline
+          Set-Content -Path $keyPassPath -Value $keyPassword -NoNewline
+
+          "keystore_path=$keystorePath" >> $env:GITHUB_OUTPUT
+          "store_pass_path=$storePassPath" >> $env:GITHUB_OUTPUT
+          "key_pass_path=$keyPassPath" >> $env:GITHUB_OUTPUT
+
+      - name: Publish signed Android App Bundle
+        shell: pwsh
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          dotnet publish LearnWithCircle.csproj `
+            -f net9.0-android `
+            -c Release `
+            -p:AndroidKeyStore=true `
+            -p:AndroidPackageFormats=aab `
+            -p:ApplicationDisplayVersion="${{ steps.meta.outputs.version }}" `
+            -p:ApplicationVersion="${{ steps.meta.outputs.version_code }}" `
+            -p:AndroidSigningKeyStore="${{ steps.signing.outputs.keystore_path }}" `
+            -p:AndroidSigningKeyAlias="$env:ANDROID_KEY_ALIAS" `
+            -p:AndroidSigningKeyPass="file:${{ steps.signing.outputs.key_pass_path }}" `
+            -p:AndroidSigningStorePass="file:${{ steps.signing.outputs.store_pass_path }}"
+
+      - name: Collect release assets
+        id: assets
+        shell: pwsh
+        run: |
+          $publishDir = Join-Path $PWD "bin\Release\net9.0-android\publish"
+          if (-not (Test-Path $publishDir)) {
+            throw "Publish directory not found: $publishDir"
+          }
+
+          $aabFiles = Get-ChildItem -Path $publishDir -Recurse -File |
+            Where-Object { $_.Extension -eq ".aab" } |
+            Sort-Object LastWriteTimeUtc -Descending
+
+          $aab = $aabFiles |
+            Where-Object { $_.Name -match "signed" } |
+            Select-Object -First 1
+
+          if (-not $aab -and $aabFiles.Count -eq 1) {
+            $aab = $aabFiles[0]
+          }
+
+          if (-not $aab) {
+            throw "Unable to determine which AAB to publish under $publishDir"
+          }
+
+          $checksumPath = Join-Path $env:RUNNER_TEMP "$($aab.BaseName).sha256.txt"
+          $hash = (Get-FileHash -Path $aab.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          Set-Content -Path $checksumPath -Value "$hash *$($aab.Name)" -NoNewline
+
+          $mapping = Get-ChildItem -Path (Join-Path $PWD "bin\Release") -Recurse -Filter "mapping.txt" |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+
+          "aab_path=$($aab.FullName)" >> $env:GITHUB_OUTPUT
+          "checksum_path=$checksumPath" >> $env:GITHUB_OUTPUT
+
+          if ($mapping) {
+            "mapping_path=$($mapping.FullName)" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-${{ steps.meta.outputs.tag }}
+          if-no-files-found: error
+          path: |
+            ${{ steps.assets.outputs.aab_path }}
+            ${{ steps.assets.outputs.checksum_path }}
+            ${{ steps.assets.outputs.mapping_path }}
+
+      - name: Publish GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "${{ steps.meta.outputs.tag }}"
+          $assets = @(
+            "${{ steps.assets.outputs.aab_path }}",
+            "${{ steps.assets.outputs.checksum_path }}"
+          )
+
+          $mappingPath = "${{ steps.assets.outputs.mapping_path }}"
+          if (-not [string]::IsNullOrWhiteSpace($mappingPath)) {
+            $assets += $mappingPath
+          }
+
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @assets --clobber
+            exit 0
+          }
+
+          $notes = ""
+          $notesPath = "${{ steps.meta.outputs.notes_path }}"
+          if (Test-Path $notesPath) {
+            $notes = (Get-Content -Path $notesPath -Raw).Trim()
+          }
+
+          $args = @("release", "create", $tag, "--verify-tag", "--generate-notes")
+          if (-not [string]::IsNullOrWhiteSpace($notes)) {
+            $args += @("--notes", $notes)
+          }
+          $args += $assets
+
+          & gh @args
