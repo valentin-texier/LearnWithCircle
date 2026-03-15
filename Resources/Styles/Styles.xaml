@@ -11,7 +11,7 @@
 
 
     <Style TargetType="Border" x:Key="HeaderBorder">
-        <Setter Property="HeightRequest" Value="120"/>
+        <Setter Property="HeightRequest" Value="150"/>
         <Setter Property="Padding" Value="12"/>
         <Setter Property="StrokeThickness" Value="0"/>
         <Setter Property="BackgroundColor"
@@ -25,7 +25,7 @@
 
     <Style TargetType="Label">
         <Setter Property="TextColor" 
-                Value="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}" />
+                Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"  />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -36,7 +36,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300Light}, Dark={StaticResource Gray600Dark}}" />
+                                    Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -55,8 +55,9 @@
 
     <Style TargetType="Label" x:Key="SubHeadline">
         <Setter Property="TextColor" 
-                Value="{AppThemeBinding Light={StaticResource Gray600Light}, Dark={StaticResource OnSurfaceDark}}" />
+                Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}" />
         <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
@@ -64,8 +65,12 @@
     <Style TargetType="Label" x:Key="FooterLabel">
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray400Light}, Dark={StaticResource Gray400Dark}}" />
+                Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="OverlayLabel">
         <Setter Property="Margin" Value="0,0,0,16" />
     </Style>
 
@@ -73,7 +78,9 @@
         <Setter Property="BackgroundColor"
                 Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
         <Setter Property="TextColor" Value="White" />
+    
         <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="Padding" Value="20,10" />
         <Setter Property="CornerRadius" Value="8" />
     </Style>

@@ -128,12 +128,14 @@
                 <Label x:Name="HelpLabel"
                        Text="هل تحتاج مساعدة؟"
                        HorizontalOptions="Center"
+                       FontAttributes="Bold"
                        FontSize="14"
-                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                       TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
 
                 <Button x:Name="TutorialButton"
                         Text="شاهد الشرح"
                         HorizontalOptions="Center"
+                        FontAttributes="Bold"
                         FontSize="16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                         TextColor="White"
@@ -153,9 +155,11 @@
                     <Label.FormattedText>
                         <FormattedString>
 
-                            <Span Text="CC BY 4.0 2026 تعليم العربية بالدوائر"/>
+                            <Span Text="CC BY 4.0 2026 تعليم العربية بالدوائر"
+                                  FontAttributes="Bold"/>
 
                             <Span Text="عرض الرخصة"
+                                  FontAttributes="Bold"
                                   TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                   TextDecorations="Underline">
                                 <Span.GestureRecognizers>
