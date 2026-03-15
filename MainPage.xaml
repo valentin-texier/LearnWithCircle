@@ -59,9 +59,9 @@
                                         </Image.GestureRecognizers>
                                     </Image>
                                     <Border x:Name="OverlayLabel"
-                                            BackgroundColor="#D1000000"
-                                            WidthRequest="120"
-                                            HeightRequest="120"
+                                            BackgroundColor="#A6000000"
+                                            WidthRequest="70"
+                                            HeightRequest="70"
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center"
                                             IsVisible="True">
