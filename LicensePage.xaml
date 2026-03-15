@@ -14,13 +14,11 @@
                                    <VerticalStackLayout Padding="16,12"
                                                         Spacing="6"
                                                         VerticalOptions="Center">
-                                     
                                           <Label Text="رُخصة المشاع الإبداعي"
                                                  Style="{StaticResource Headline}"
                                                  MaxLines="2"
                                                  LineBreakMode="TailTruncation"/>
-             
-                                          <Label Text="CC BY 4.0 — المُلزِمة بنسب العمل لمؤلِّفه"
+                                          <Label Text="CC BY 4.0 — المُلزِمة بنسب العمل لمؤلِّفه M. Bakni"
                                                  Style="{StaticResource SubHeadline}"
                                                  MaxLines="2"
                                                  LineBreakMode="TailTruncation"/>
@@ -29,44 +27,28 @@
                      </Border>
 
                      <Label Text="مجموعة المعطيات هذه مُرخَّصة برُخصة المشاع الإبداعي الدولية المُلزِمة بنسب العمل لمؤلِّفه (CC BY 4.0)"
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Text="يمكنك:"
-                            FontAttributes="Bold"
-                            FontSize="16"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource SectionTitleStyle}"/>
 
                      <Label Text="المشاركة: أي نسخ وإعادة توزيع المادة بأي وسيلة أو تنسيق."
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Text="التعديل: إعادة إنتاج أو عمل تغيير أو بناء معطيات جديدة انطلاقًا من هذه المادة، بما في ذلك الاستعمال التجاري."
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Text="وفقًا للشروط التالية:"
-                            FontAttributes="Bold"
-                            FontSize="16"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource SectionTitleStyle}"/>
 
                      <Label Text="النسبة: يلزم ذكر المؤلِّف المناسب، ووضع رابط إلى الرخصة، والإشارة إلى أي تغييرات أُجريت. لا قيود صارمة على كيفية نسبة العمل، ما خلا عدم الإيحاء بأن مؤلف العمل يؤيدك أو يؤيد استخدامك."
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Text="عدم فرض قيود إضافية — لا يجوز تطبيق شروط قانونية أو تدابير تقنية تقيّد الآخرين من استخدام مجموعة المعطيات كما تسمح به الرُخصة."
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Text="يُمكن قراءة النص الكامل للرخصة لمزيد من التفاصيل:"
-                            FontAttributes="Bold"
-                            FontSize="15"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                            Style="{StaticResource BodyBoldStyle}"/>
 
                      <Label Padding="4,0">
                             <Label.GestureRecognizers>
@@ -76,7 +58,8 @@
                                    <FormattedString>
                                           <Span Text="https://creativecommons.org/licenses/by/4.0/legalcode"
                                                 FontSize="14"
-                                                TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                                                TextColor="{AppThemeBinding Light={StaticResource PrimaryLight},
+                                                         Dark={StaticResource PrimaryDark}}"
                                                 TextDecorations="Underline"/>
                                    </FormattedString>
                             </Label.FormattedText>

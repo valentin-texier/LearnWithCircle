@@ -15,6 +15,7 @@
         <Grid x:Name="MainLayout"
               RowDefinitions="Auto,*,Auto,Auto">
 
+            <!-- ── HEADER ── -->
             <VerticalStackLayout Grid.Row="0"
                                  x:Name="HeaderSection"
                                  Spacing="16"
@@ -36,6 +37,7 @@
                 </Border>
             </VerticalStackLayout>
 
+            <!-- ── CAROUSEL ── -->
             <Grid Grid.Row="1"
                   RowDefinitions="*,Auto"
                   Margin="0,8,0,0">
@@ -58,24 +60,10 @@
                                             <TapGestureRecognizer Tapped="OnCircleTapped"/>
                                         </Image.GestureRecognizers>
                                     </Image>
-                                    <Border x:Name="OverlayLabel"
-                                            BackgroundColor="#A6000000"
-                                            WidthRequest="70"
-                                            HeightRequest="70"
-                                            HorizontalOptions="Center"
-                                            VerticalOptions="Center"
+                                    <Border Style="{StaticResource OverlayBorderStyle}"
                                             IsVisible="True">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="60"/>
-                                        </Border.StrokeShape>
                                         <Label Text="انقر عليّ"
-                                               TextColor="White"
-                                               FontSize="14"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center"
-                                               HorizontalTextAlignment="Center"
-                                               VerticalTextAlignment="Center"/>
+                                               Style="{StaticResource OverlayLabelStyle}"/>
                                     </Border>
                                 </Grid>
                             </DataTemplate>
@@ -87,39 +75,26 @@
                             Clicked="OnScrollLeft"
                             IsVisible="False"
                             HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            Margin="10,0"
-                            HeightRequest="40"
-                            WidthRequest="40"
-                            CornerRadius="20"
-                            Padding="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariantLight}, Dark={StaticResource SurfaceVariantDark}}"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
-                            Opacity="0.9"/>
+                            Style="{StaticResource ArrowButtonStyle}"/>
 
                     <Button x:Name="RightArrow"
                             Text="❯"
                             Clicked="OnScrollRight"
                             HorizontalOptions="End"
-                            VerticalOptions="Center"
-                            Margin="10,0"
-                            HeightRequest="40"
-                            WidthRequest="40"
-                            CornerRadius="20"
-                            Padding="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariantLight}, Dark={StaticResource SurfaceVariantDark}}"
-                            TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
-                            Opacity="0.9"/>
+                            Style="{StaticResource ArrowButtonStyle}"/>
                 </Grid>
 
                 <IndicatorView Grid.Row="1"
                                x:Name="Indicators"
-                               IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light}, Dark={StaticResource Gray300Dark}}"
-                               SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                               IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light},
+                                                                Dark={StaticResource Gray300Dark}}"
+                               SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight},
+                                                                        Dark={StaticResource PrimaryDark}}"
                                HorizontalOptions="Center"
                                Margin="0,2,0,0"/>
             </Grid>
 
+            <!-- ── TUTORIEL ── -->
             <VerticalStackLayout Grid.Row="2"
                                  x:Name="TutorialSection"
                                  HorizontalOptions="Center"
@@ -127,51 +102,37 @@
                                  Padding="0,24,0,16">
                 <Label x:Name="HelpLabel"
                        Text="هل تحتاج مساعدة؟"
-                       HorizontalOptions="Center"
-                       FontAttributes="Bold"
-                       FontSize="14"
-                       TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource OnSurfaceDark}}"/>
+                       Style="{StaticResource HelpLabelStyle}"/>
 
                 <Button x:Name="TutorialButton"
                         Text="شاهد الشرح"
-                        HorizontalOptions="Center"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
-                        TextColor="White"
-                        CornerRadius="12"
-                        Padding="16,10"
+                        Style="{StaticResource TutorialButtonStyle}"
                         Clicked="OnTutorialClicked"/>
             </VerticalStackLayout>
 
+            <!-- ── FOOTER ── -->
             <VerticalStackLayout Grid.Row="3"
                                  Padding="16,8,16,12"
                                  HorizontalOptions="Center">
-
                 <Label HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
                        Style="{StaticResource FooterLabel}">
-
                     <Label.FormattedText>
                         <FormattedString>
-
                             <Span Text="CC BY 4.0 2026 تعليم العربية بالدوائر"
                                   FontAttributes="Bold"/>
-
                             <Span Text="عرض الرخصة"
                                   FontAttributes="Bold"
-                                  TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                                  TextColor="{AppThemeBinding Light={StaticResource PrimaryLight},
+                                                              Dark={StaticResource PrimaryDark}}"
                                   TextDecorations="Underline">
                                 <Span.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnLicenseClicked"/>
                                 </Span.GestureRecognizers>
                             </Span>
-
                         </FormattedString>
                     </Label.FormattedText>
-
                 </Label>
-
             </VerticalStackLayout>
 
         </Grid>
