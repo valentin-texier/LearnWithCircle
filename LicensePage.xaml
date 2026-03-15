@@ -18,7 +18,7 @@
                                                  Style="{StaticResource Headline}"
                                                  MaxLines="2"
                                                  LineBreakMode="TailTruncation"/>
-                                          <Label Text="CC BY 4.0 — المُلزِمة بنسب العمل لمؤلِّفه M. Bakni"
+                                          <Label Text="CC BY 4.0 2026 M. Bakni"
                                                  Style="{StaticResource SubHeadline}"
                                                  MaxLines="2"
                                                  LineBreakMode="TailTruncation"/>
