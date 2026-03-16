@@ -62,7 +62,7 @@
                                     </Image>
                                     <Border Style="{StaticResource OverlayBorderStyle}"
                                             IsVisible="True">
-                                        <Label Text="انقر عليّ"
+                                        <Label Text="اضغط"
                                                Style="{StaticResource OverlayLabelStyle}"/>
                                     </Border>
                                 </Grid>

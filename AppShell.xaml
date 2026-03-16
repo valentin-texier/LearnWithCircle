@@ -15,7 +15,7 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
     
-    <MenuItem Text="البدء" Clicked="OnGettingStartedClicked" />
+    <MenuItem Text="الدروس المُصوَّرة" Clicked="OnGettingStartedClicked" />
 
     <MenuItem Text="عرض الرخصة" Clicked="OnLicenseClicked" />
 
