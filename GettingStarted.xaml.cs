@@ -7,6 +7,7 @@ public partial class GettingStarted : ContentPage
 	public GettingStarted()
 	{
 		InitializeComponent();
+		Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
 	}
 
 	protected override void OnSizeAllocated(double width, double height)
@@ -51,5 +52,10 @@ public partial class GettingStarted : ContentPage
 				await DisplayAlert("Error", $"Failed to open video: {ex.Message}", "OK");
 			}
 		}
+	}
+
+	private async void OnBackClicked(object sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync("//MainPage");
 	}
 }

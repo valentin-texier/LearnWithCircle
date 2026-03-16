@@ -6,6 +6,14 @@
     Title="البدء"
     BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="OnBackClicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#x2190;" Size="30" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <Grid RowDefinitions="Auto,*">
             <VerticalStackLayout Grid.Row="0"

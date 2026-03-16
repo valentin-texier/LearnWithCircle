@@ -25,4 +25,9 @@
         ContentTemplate="{DataTemplate local:LicensePage}"
         Route="LicensePage" />
 
+    <MenuItem Text="تعرَّف المشروع" Clicked="OnWikipediaClicked" />
+
+    <MenuItem Text="تطبيق الأستاذ" Clicked="OnTeacherClicked" />
+
+
 </Shell>
