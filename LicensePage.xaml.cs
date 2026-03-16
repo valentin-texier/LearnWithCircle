@@ -5,6 +5,7 @@ public partial class LicensePage : ContentPage
 	public LicensePage()
 	{
 		InitializeComponent();
+		Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
 	}
 
 	private async void OnLinkTapped(object sender, EventArgs e)
@@ -19,5 +20,10 @@ public partial class LicensePage : ContentPage
 		{
 			await DisplayAlert("Error", $"Failed to open link: {ex.Message}", "OK");
 		}
+	}
+
+	private async void OnBackClicked(object sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync("//MainPage");
 	}
 }
