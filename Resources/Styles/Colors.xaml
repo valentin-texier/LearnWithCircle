@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary 
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- LIGHT COLORS -->
+    <!-- Light -->
     <Color x:Key="PrimaryLight">#4D61FF</Color>
     <Color x:Key="SurfaceLight">#FFFFFF</Color>
     <Color x:Key="SurfaceVariantLight">#EEF0FF</Color>
@@ -15,7 +15,7 @@
     <Color x:Key="Gray600Light">#404040</Color>
     <Color x:Key="Gray900Light">#212121</Color>
 
-    <!-- DARK COLORS -->
+    <!-- Dark -->
     <Color x:Key="PrimaryDark">#9AA4FF</Color>
     <Color x:Key="SurfaceDark">#121212</Color>
     <Color x:Key="SurfaceVariantDark">#30303F</Color>
@@ -25,5 +25,8 @@
     <Color x:Key="Gray400Dark">#6E6E6E</Color>
     <Color x:Key="Gray600Dark">#B0B3C6</Color>
     <Color x:Key="Gray900Dark">#FFFFFF</Color>
+
+    <Color x:Key="ColorWhite">#FFFFFF</Color>
+    <Color x:Key="ColorOverlayBackground">#A6000000</Color>
 
 </ResourceDictionary>
