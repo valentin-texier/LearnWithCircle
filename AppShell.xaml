@@ -14,16 +14,10 @@
         Title="تعليم العربية بالدوائر"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    
+    <MenuItem Text="البدء" Clicked="OnGettingStartedClicked" />
 
-    <ShellContent
-        Title="البدء"
-        ContentTemplate="{DataTemplate local:GettingStarted}"
-        Route="GettingStarted" />
-
-    <ShellContent
-        Title="عرض الرخصة"
-        ContentTemplate="{DataTemplate local:LicensePage}"
-        Route="LicensePage" />
+    <MenuItem Text="عرض الرخصة" Clicked="OnLicenseClicked" />
 
     <MenuItem Text="تعرَّف المشروع" Clicked="OnWikipediaClicked" />
 
