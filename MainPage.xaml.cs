@@ -124,7 +124,7 @@ public partial class MainPage : ContentPage
 
     private async void OnTutorialClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///GettingStarted");
+        await Shell.Current.GoToAsync(nameof(GettingStarted));
     }
 
     private async void OnCircleTapped(object sender, EventArgs e)
@@ -140,6 +140,6 @@ public partial class MainPage : ContentPage
 
     private async void OnLicenseClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///LicensePage");
+        await Shell.Current.GoToAsync(nameof(LicensePage));
     }
 }
