@@ -5,14 +5,6 @@
              Style="{StaticResource MainPageStyle}"
              Title="عرض الرخصة">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="OnBackClicked">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource Glyph="&#x2190;" Size="30" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
-
     <ScrollView>
         <VerticalStackLayout Padding="16,20" Spacing="16">
 
