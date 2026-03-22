@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Release version without the leading v (example: 1.2.3)
+        description: Release version without the leading v (example 1.2.3)
         required: true
         type: string
       version_code:
@@ -58,17 +58,17 @@ jobs:
           $tag = "v$version"
           $notesPath = Join-Path $env:RUNNER_TEMP "release-notes.txt"
           @'
-${{ inputs.release_notes }}
-'@.Trim() | Set-Content -Path $notesPath -Encoding utf8NoBOM
-
-          "tag=$tag" >> $env:GITHUB_OUTPUT
-          "version=$version" >> $env:GITHUB_OUTPUT
-          "version_code=$versionCode" >> $env:GITHUB_OUTPUT
-          "notes_path=$notesPath" >> $env:GITHUB_OUTPUT
-
-      - name: Create and push tag
-        shell: pwsh
-        run: |
+            ${{ inputs.release_notes }}
+            '@.Trim() | Set-Content -Path $notesPath -Encoding utf8NoBOM
+            
+                      "tag=$tag" >> $env:GITHUB_OUTPUT
+                      "version=$version" >> $env:GITHUB_OUTPUT
+                      "version_code=$versionCode" >> $env:GITHUB_OUTPUT
+                      "notes_path=$notesPath" >> $env:GITHUB_OUTPUT
+            
+                  - name: Create and push tag
+                    shell: pwsh
+                    run: |
           $tag = "${{ steps.meta.outputs.tag }}"
 
           git fetch --tags origin
