@@ -60,9 +60,6 @@ public partial class MainPage : ContentPage
         TutorialButton.FontSize = isTablet ? 20 : 16;
         TutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
 
-        double fixedHeaderHeight = isTablet ? 180 : (isLandscape ? 120 : 150);
-        HeaderBorder.HeightRequest = fixedHeaderHeight;
-
         if (isLandscape && !isTablet)
         {
             HeaderSection.Padding = new Thickness(24, 4);

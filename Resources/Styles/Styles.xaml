@@ -17,8 +17,6 @@
 
     <Style TargetType="Border"
            x:Key="HeaderBorder">
-        <Setter Property="HeightRequest"
-                Value="150"/>
         <Setter Property="Padding"
                 Value="12"/>
         <Setter Property="StrokeThickness"
