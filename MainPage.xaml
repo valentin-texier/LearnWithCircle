@@ -11,17 +11,134 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView x:Name="RootScroll">
-        <Grid x:Name="MainLayout"
+    <Grid x:Name="RootGrid">
+
+        <ScrollView x:Name="RootScroll"
+                    IsVisible="False"
+                    Orientation="Vertical">
+            <Grid x:Name="LandscapeLayout"
+                  RowDefinitions="Auto,Auto,Auto,Auto">
+
+                <VerticalStackLayout Grid.Row="0"
+                                     x:Name="LandscapeHeaderSection"
+                                     Spacing="16"
+                                     Padding="16,20">
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <VerticalStackLayout VerticalOptions="Center"
+                                             Spacing="6"
+                                             Padding="16,12">
+                            <Label x:Name="LandscapeTitleLabel"
+                                   MaxLines="2"
+                                   LineBreakMode="WordWrap"
+                                   Style="{StaticResource Headline}"/>
+                            <Label x:Name="LandscapeSubtitleLabel"
+                                   MaxLines="2"
+                                   LineBreakMode="WordWrap"
+                                   Style="{StaticResource SubHeadline}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Grid Grid.Row="1"
+                      RowDefinitions="Auto,Auto"
+                      Margin="0,8,0,0">
+                    <Grid Grid.Row="0">
+                        <CarouselView x:Name="LandscapeCarousel"
+                                      HorizontalScrollBarVisibility="Never"
+                                      CurrentItemChanged="OnCurrentItemChanged"
+                                      Loop="False"
+                                      IndicatorView="LandscapeIndicators">
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate x:DataType="learning:LearningCircleModel">
+                                    <Grid HorizontalOptions="Fill"
+                                          VerticalOptions="Fill">
+                                        <Image Source="{Binding ThumbnailFile}"
+                                               Aspect="AspectFit"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Margin="{DynamicResource CircleMargin}">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnCircleTapped"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                        <Border Style="{StaticResource OverlayBorderStyle}"
+                                                IsVisible="True">
+                                            <Label Text="اضغط"
+                                                   Style="{StaticResource OverlayLabelStyle}"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>
+                        <Button x:Name="LandscapeLeftArrow"
+                                Text="❮"
+                                Clicked="OnScrollLeft"
+                                IsVisible="False"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource ArrowButtonStyle}"/>
+                        <Button x:Name="LandscapeRightArrow"
+                                Text="❯"
+                                Clicked="OnScrollRight"
+                                HorizontalOptions="End"
+                                Style="{StaticResource ArrowButtonStyle}"/>
+                    </Grid>
+                    <IndicatorView Grid.Row="1"
+                                   x:Name="LandscapeIndicators"
+                                   IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light}, Dark={StaticResource Gray300Dark}}"
+                                   SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                                   HorizontalOptions="Center"
+                                   Margin="0,2,0,0"/>
+                </Grid>
+
+                <VerticalStackLayout Grid.Row="2"
+                                     x:Name="LandscapeTutorialSection"
+                                     HorizontalOptions="Center"
+                                     Spacing="8"
+                                     Padding="0,24,0,16">
+                    <Label x:Name="LandscapeHelpLabel"
+                           Text="هل تحتاج مساعدة؟"
+                           Style="{StaticResource HelpLabelStyle}"/>
+                    <Button x:Name="LandscapeTutorialButton"
+                            Text="شاهد الشرح"
+                            Style="{StaticResource TutorialButtonStyle}"
+                            Clicked="OnTutorialClicked"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="3"
+                                     Padding="16,8,16,12"
+                                     HorizontalOptions="Center">
+                    <Label HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Style="{StaticResource FooterLabel}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="CC BY 4.0 2026 تعليم العربية بالدوائر"
+                                      FontAttributes="Bold"/>
+                                <Span Text="عرض الرخصة"
+                                      FontAttributes="Bold"
+                                      TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
+                                      TextDecorations="Underline">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnLicenseClicked"/>
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+
+            </Grid>
+        </ScrollView>
+
+        <!-- Portrait layout: fixed rows, no scroll, footer pinned -->
+        <Grid x:Name="PortraitLayout"
               RowDefinitions="Auto,*,Auto,Auto">
 
-            <!-- ── HEADER ── -->
             <VerticalStackLayout Grid.Row="0"
                                  x:Name="HeaderSection"
                                  Spacing="16"
                                  Padding="16,20">
-                <Border x:Name="HeaderBorder"
-                        Style="{StaticResource HeaderBorder}">
+                <Border Style="{StaticResource HeaderBorder}">
                     <VerticalStackLayout VerticalOptions="Center"
                                          Spacing="6"
                                          Padding="16,12">
@@ -37,11 +154,12 @@
                 </Border>
             </VerticalStackLayout>
 
-            <!-- ── CAROUSEL ── -->
+            <!-- Carousel fills all remaining space between header and tutorial -->
             <Grid Grid.Row="1"
                   RowDefinitions="*,Auto"
                   Margin="0,8,0,0">
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0"
+                      VerticalOptions="Fill">
                     <CarouselView x:Name="LearningCircleCarousel"
                                   HorizontalScrollBarVisibility="Never"
                                   CurrentItemChanged="OnCurrentItemChanged"
@@ -69,32 +187,26 @@
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
                     </CarouselView>
-
                     <Button x:Name="LeftArrow"
                             Text="❮"
                             Clicked="OnScrollLeft"
                             IsVisible="False"
                             HorizontalOptions="Start"
                             Style="{StaticResource ArrowButtonStyle}"/>
-
                     <Button x:Name="RightArrow"
                             Text="❯"
                             Clicked="OnScrollRight"
                             HorizontalOptions="End"
                             Style="{StaticResource ArrowButtonStyle}"/>
                 </Grid>
-
                 <IndicatorView Grid.Row="1"
                                x:Name="Indicators"
-                               IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light},
-                                                                Dark={StaticResource Gray300Dark}}"
-                               SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight},
-                                                                        Dark={StaticResource PrimaryDark}}"
+                               IndicatorColor="{AppThemeBinding Light={StaticResource Gray300Light}, Dark={StaticResource Gray300Dark}}"
+                               SelectedIndicatorColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                HorizontalOptions="Center"
                                Margin="0,2,0,0"/>
             </Grid>
 
-            <!-- ── TUTORIEL ── -->
             <VerticalStackLayout Grid.Row="2"
                                  x:Name="TutorialSection"
                                  HorizontalOptions="Center"
@@ -103,14 +215,12 @@
                 <Label x:Name="HelpLabel"
                        Text="هل تحتاج مساعدة؟"
                        Style="{StaticResource HelpLabelStyle}"/>
-
                 <Button x:Name="TutorialButton"
                         Text="شاهد الشرح"
                         Style="{StaticResource TutorialButtonStyle}"
                         Clicked="OnTutorialClicked"/>
             </VerticalStackLayout>
 
-            <!-- ── FOOTER ── -->
             <VerticalStackLayout Grid.Row="3"
                                  Padding="16,8,16,12"
                                  HorizontalOptions="Center">
@@ -123,8 +233,7 @@
                                   FontAttributes="Bold"/>
                             <Span Text="عرض الرخصة"
                                   FontAttributes="Bold"
-                                  TextColor="{AppThemeBinding Light={StaticResource PrimaryLight},
-                                                              Dark={StaticResource PrimaryDark}}"
+                                  TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                   TextDecorations="Underline">
                                 <Span.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnLicenseClicked"/>
@@ -136,5 +245,5 @@
             </VerticalStackLayout>
 
         </Grid>
-    </ScrollView>
+    </Grid>
 </ContentPage>

@@ -11,10 +11,11 @@ public partial class MainPage : ContentPage
     private const double MinCarouselTablet = 340;
     private const double MinCarouselTabletLandscape = 300;
 
+    private bool _isLandscape;
+
     public MainPage()
     {
         InitializeComponent();
-
         _ = InitializeAsync();
     }
 
@@ -25,6 +26,7 @@ public partial class MainPage : ContentPage
             return;
 
         LearningCircleCarousel.ItemsSource = circles;
+        LandscapeCarousel.ItemsSource = circles;
         SetHeader(circles[0]);
         UpdateArrows();
     }
@@ -36,20 +38,27 @@ public partial class MainPage : ContentPage
         if (width <= 0 || height <= 0)
             return;
 
-        MainLayout.MinimumHeightRequest = height;
-
         bool isLandscape = width > height;
         bool isTablet = Math.Min(width, height) >= TabletWidthThreshold;
 
+        if (isLandscape != _isLandscape)
+        {
+            _isLandscape = isLandscape;
+            PortraitLayout.IsVisible = !isLandscape;
+            RootScroll.IsVisible = isLandscape;
+
+            LandscapeCarousel.Position = LearningCircleCarousel.Position;
+        }
+
         ApplyStyleAdaptations(isTablet, isLandscape);
 
-        LearningCircleCarousel.MinimumHeightRequest = (isTablet, isLandscape) switch
-        {
-            (true, false) => MinCarouselTablet,
-            (true, true) => MinCarouselTabletLandscape,
-            (false, true) => MinCarouselPhoneLandscape,
-            _ => MinCarouselPhone
-        };
+        LearningCircleCarousel.MinimumHeightRequest = isTablet
+            ? MinCarouselTablet
+            : MinCarouselPhone;
+
+        LandscapeCarousel.MinimumHeightRequest = isTablet
+            ? MinCarouselTabletLandscape
+            : MinCarouselPhoneLandscape;
     }
 
     private void ApplyStyleAdaptations(bool isTablet, bool isLandscape)
@@ -60,10 +69,16 @@ public partial class MainPage : ContentPage
         TutorialButton.FontSize = isTablet ? 20 : 16;
         TutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
 
+        LandscapeTitleLabel.FontSize = isTablet ? 28 : 20;
+        LandscapeSubtitleLabel.FontSize = isTablet ? 18 : 14;
+        LandscapeHelpLabel.FontSize = isTablet ? 18 : 14;
+        LandscapeTutorialButton.FontSize = isTablet ? 20 : 16;
+        LandscapeTutorialButton.Padding = isTablet ? new Thickness(24, 14) : new Thickness(16, 10);
+
         if (isLandscape && !isTablet)
         {
-            HeaderSection.Padding = new Thickness(24, 4);
-            TutorialSection.Padding = new Thickness(0, 24, 0, 8);
+            LandscapeHeaderSection.Padding = new Thickness(24, 4);
+            LandscapeTutorialSection.Padding = new Thickness(0, 24, 0, 8);
             Resources["CircleMargin"] = new Thickness(200, 60);
         }
         else if (!isTablet)
@@ -84,7 +99,12 @@ public partial class MainPage : ContentPage
     {
         if (e.CurrentItem is LearningCircleModel circle)
             SetHeader(circle);
-            
+
+        if (sender == LearningCircleCarousel && LandscapeCarousel.Position != LearningCircleCarousel.Position)
+            LandscapeCarousel.Position = LearningCircleCarousel.Position;
+        else if (sender == LandscapeCarousel && LearningCircleCarousel.Position != LandscapeCarousel.Position)
+            LearningCircleCarousel.Position = LandscapeCarousel.Position;
+
         UpdateArrows();
     }
 
@@ -93,23 +113,36 @@ public partial class MainPage : ContentPage
         if (LearningCircleCarousel.ItemsSource is not IList items)
             return;
 
-        LeftArrow.IsVisible = LearningCircleCarousel.Position > 0;
-        RightArrow.IsVisible = LearningCircleCarousel.Position < items.Count - 1;
+        int pos = _isLandscape ? LandscapeCarousel.Position : LearningCircleCarousel.Position;
+        LeftArrow.IsVisible = pos > 0;
+        RightArrow.IsVisible = pos < items.Count - 1;
+        LandscapeLeftArrow.IsVisible = pos > 0;
+        LandscapeRightArrow.IsVisible = pos < items.Count - 1;
     }
 
     private void OnScrollLeft(object sender, EventArgs e)
     {
-        if (LearningCircleCarousel.Position > 0)
+        if (_isLandscape)
         {
-            LearningCircleCarousel.Position--;
+            if (LandscapeCarousel.Position > 0) LandscapeCarousel.Position--;
+        }
+        else
+        {
+            if (LearningCircleCarousel.Position > 0) LearningCircleCarousel.Position--;
         }
     }
 
     private void OnScrollRight(object sender, EventArgs e)
     {
-        if (LearningCircleCarousel.ItemsSource is IList items && LearningCircleCarousel.Position < items.Count - 1)
+        if (LearningCircleCarousel.ItemsSource is not IList items) return;
+
+        if (_isLandscape)
         {
-            LearningCircleCarousel.Position++;
+            if (LandscapeCarousel.Position < items.Count - 1) LandscapeCarousel.Position++;
+        }
+        else
+        {
+            if (LearningCircleCarousel.Position < items.Count - 1) LearningCircleCarousel.Position++;
         }
     }
 
@@ -117,6 +150,8 @@ public partial class MainPage : ContentPage
     {
         TitleLabel.Text = circle.Title;
         SubtitleLabel.Text = circle.Subtitle;
+        LandscapeTitleLabel.Text = circle.Title;
+        LandscapeSubtitleLabel.Text = circle.Subtitle;
     }
 
     private async void OnTutorialClicked(object sender, EventArgs e)
